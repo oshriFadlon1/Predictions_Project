@@ -20,8 +20,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-//        String currentDirectory = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-//        System.out.println("Current Directory: " + currentDirectory);
         URL mainFXML = getClass().getResource("/scenes/loginpagebasic.fxml");
         loader.setLocation(mainFXML);
         AnchorPane root = loader.load();
@@ -30,7 +28,7 @@ public class Main extends Application {
         loginController.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle("Prediction");
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, 1100, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

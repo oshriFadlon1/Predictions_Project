@@ -6,7 +6,6 @@ import entity.EntityDefinition;
 import entity.EntityToPopulation;
 import environment.EnvironmentDefinition;
 import environment.EnvironmentInstance;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import property.*;
 import range.Range;
@@ -27,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Component
 public class MainEngine {
 
     private XmlParser xmlParser;
