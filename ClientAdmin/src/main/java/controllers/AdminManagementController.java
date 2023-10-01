@@ -50,7 +50,7 @@ public class AdminManagementController implements Initializable {
     }
 
     @FXML
-    public void onLoadButton(){
+    private void onLoadButton(){
         this.client = Main.getCLIENT();
         Gson gson = new Gson();
         Stage stage = (Stage)rootScrollPane.getScene().getWindow();
@@ -77,7 +77,7 @@ public class AdminManagementController implements Initializable {
     }
 
     @FXML
-    public void onButtonThreadCount(){
+    private void onButtonThreadCount(){
         try{
             Integer.parseInt(this.textFieldThreadCount.getText());
             Request threadCountRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/setthreadcount").build();
@@ -102,7 +102,7 @@ public class AdminManagementController implements Initializable {
 
     }
 
-    public void fetchQueueData(){
+    private void fetchQueueData(){
         if(this.client == null){
             this.client = Main.getCLIENT();
         }

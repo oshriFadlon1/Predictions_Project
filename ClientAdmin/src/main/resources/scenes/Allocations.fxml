@@ -23,14 +23,14 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView fx:id="tableViewRequests" GridPane.columnSpan="2">
+                  <TableView fx:id="tableViewRequests" onKeyPressed="#selectedTableValue" GridPane.columnSpan="2">
                     <columns>
                       <TableColumn fx:id="columnRequestId" prefWidth="75.0" text="Request id" />
                       <TableColumn fx:id="columnSimulationName" prefWidth="102.0" text="Simulation name" />
                         <TableColumn fx:id="columnUserName" prefWidth="75.0" text="Username" />
                         <TableColumn fx:id="columnRequestedRuns" prefWidth="108.0" text="Requested runs " />
                         <TableColumn fx:id="columnTermination" prefWidth="107.20001220703125" text="Termination" />
-                        <TableColumn fx:id="columnSimulationStatus" prefWidth="115.20001220703125" text="Simulation status" />
+                        <TableColumn fx:id="columnRequestStatus" prefWidth="115.20001220703125" text="Request status" />
                         <TableColumn fx:id="columnCurrentRuns" prefWidth="87.20001220703125" text="Current runs" />
                         <TableColumn fx:id="columnFinishedRuns" prefWidth="90.4000244140625" text="Finished runs" />
                     </columns>
@@ -47,8 +47,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="buttonApprove" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Approve request" GridPane.rowIndex="2" />
-                        <Button fx:id="buttonReject" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Reject request" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button fx:id="buttonApprove" disable="true" mnemonicParsing="false" onAction="#onButtonApprove" prefHeight="25.0" prefWidth="130.0" text="Approve request" GridPane.rowIndex="2" />
+                        <Button fx:id="buttonReject" disable="true" mnemonicParsing="false" onAction="#onButtonReject" prefHeight="25.0" prefWidth="130.0" text="Reject request" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                </children>
