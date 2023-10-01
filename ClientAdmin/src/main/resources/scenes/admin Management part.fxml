@@ -5,13 +5,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminManagementController">
+<ScrollPane fx:id="rootScrollPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminManagementController">
   <content>
     <AnchorPane>
          <children>
@@ -24,7 +24,9 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -36,24 +38,35 @@
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Qeueue manager :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                  <Label text="Qeueue manager :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                   <Label text="Simulations in progress :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <Label text="Ended simulations :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="4" />
                   <Label text="Simulations pending :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="5" />
-                  <Label text="Label" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-                  <Label text="Label" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-                  <Label text="Label" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Load File Button" GridPane.columnSpan="2" />
+                  <Label fx:id="labelSimulationsProgress" text="Label" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                  <Label fx:id="labelSimulationsEnded" text="Label" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+                  <Label fx:id="labelSimulationsPending" text="Label" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+                  <Button fx:id="buttonLoadFile" mnemonicParsing="false" onAction="#onLoadButton" prefHeight="26.0" prefWidth="174.0" text="Load File Button" GridPane.columnSpan="2" />
                   <TextField GridPane.columnIndex="2" GridPane.columnSpan="3">
                      <GridPane.margin>
                         <Insets right="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TreeView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="4" />
-                  <AnchorPane GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="3" />
-                  <Button mnemonicParsing="false" text="Set threads count" GridPane.columnIndex="7" GridPane.columnSpan="2" />
-                  <Label text="File status :" GridPane.rowIndex="1" />
-                  <Label text="Label" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+                  <AnchorPane prefWidth="198.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="3" />
+                  <Button fx:id="buttonThreadCount" mnemonicParsing="false" onAction="#onButtonThreadCount" text="Set threads count" GridPane.columnIndex="9" GridPane.columnSpan="2" />
+                  <Label text="File status :" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label fx:id="labelLoadStatus" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <TextField fx:id="textFieldThreadCount" prefHeight="25.0" prefWidth="44.0" GridPane.columnIndex="8" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
+                  <Label fx:id="labelThreadCountMsg" text="Label" visible="false" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
          </children></AnchorPane>
