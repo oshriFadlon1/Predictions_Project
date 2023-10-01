@@ -1,4 +1,4 @@
-package engine;
+package com.example.server.engine;
 
 import constans.Constans;
 import dtos.*;
@@ -19,10 +19,8 @@ import world.WorldDefinition;
 import world.WorldInstance;
 import exceptions.GeneralException;
 import xmlParser.XmlParser;
-
 import javax.xml.bind.JAXBException;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,9 +29,9 @@ public class MainEngine {
 
     private XmlParser xmlParser;
     private WorldDefinition xmlWorldDefinition;
-    private WorldDefinition worldDefinitionForSimulation;
+    private Map<String, WorldDefinition> worldDefinitionForSimulation;
     private SimulationExecutionerManager simulationExecutionerManager;
-    private DtoBasicSimulationInfo dtoAllSimulationsStartingInfo;
+    private DtoBasicSimulationInfo dtoAllSimulationsStartingInfo; // get the basic info for reRun a given simulation
 
 
     public void initMainEngine(){
@@ -44,26 +42,18 @@ public class MainEngine {
         this.xmlParser = null;
     }
 
-
-    public WorldDefinition getWorldDefinitionForSimulation(){
-        return this.worldDefinitionForSimulation;
-    }
-
-
-    private String getCurrentTimeAndDateInTheFormat() {
-        Date currentDate = new Date();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy | hh.mm.ss");
-
-        return sdf.format(currentDate);
-    }
-
-    public DtoResponsePreview previewWorldInfo(){
-        return new DtoResponsePreview(getEnvironmentsInfo(),
-                getEntitiesInfoSimulation(),
-                getRulesInfoSimulation(),
-                this.worldDefinitionForSimulation.getWorldSize().getRow(),
-                this.worldDefinitionForSimulation.getWorldSize().getCol());
+    public List<DtoResponsePreview> previewWorldsInfo(){
+        List<DtoResponsePreview> worldsPreviewInfo = new ArrayList<>();
+        for (String name:this.worldDefinitionForSimulation.keySet()) {
+            WorldDefinition worldDefinition = this.worldDefinitionForSimulation.get(name);
+            worldsPreviewInfo.add(new DtoResponsePreview(name,
+                    getEnvironmentsInfo(worldDefinition),
+                    getEntitiesInfoSimulation(worldDefinition),
+                    getRulesInfoSimulation(worldDefinition),
+                    worldDefinition.getWorldSize().getRow(),
+                    worldDefinition.getWorldSize().getCol()));
+        }
+        return worldsPreviewInfo;
     }
 
     public void clearAllInformation(){
@@ -81,50 +71,63 @@ public class MainEngine {
         return this.simulationExecutionerManager.fetchInfoOnChosenProperty(simulationId, entityName, propertyName);
     }
 
-    private Map<String, DtoEnvironmentDetails> getEnvironmentsInfo() {
-        return new DtoEnvironments(this.worldDefinitionForSimulation.getAllEnvironments());
+    private Map<String, DtoEnvironmentDetails> getEnvironmentsInfo(WorldDefinition worldDefinition) {
+        Map<String, DtoEnvironmentDetails> name2EnvironmentDetails = new HashMap<>();
+        for (String name:worldDefinition.getAllEnvironments().keySet()) {
+            EnvironmentDefinition environmentDefinition = worldDefinition.getAllEnvironments().get(name);
+            if (environmentDefinition.getEnvPropertyDefinition().getPropertyRange() == null)
+            {
+                name2EnvironmentDetails.put(name,
+                        new DtoEnvironmentDetails(environmentDefinition.getEnvPropertyDefinition().getPropertyName(),
+                        environmentDefinition.getEnvPropertyDefinition().getPropertyType(),
+                        -1,-1));
+            } else {
+                name2EnvironmentDetails.put(name,
+                        new DtoEnvironmentDetails(environmentDefinition.getEnvPropertyDefinition().getPropertyName(),
+                                environmentDefinition.getEnvPropertyDefinition().getPropertyType(),
+                                environmentDefinition.getEnvPropertyDefinition().getPropertyRange().getFrom(),
+                                environmentDefinition.getEnvPropertyDefinition().getPropertyRange().getTo()));
+            }
+        }
+        return name2EnvironmentDetails;
     }
 
-    private Map<String, DtoEntitiesDetail> getEntitiesInfoSimulation() {
-        List<DtoResponseEntities> entities = new ArrayList<>();
+    private Map<String, DtoEntitiesDetail> getEntitiesInfoSimulation(WorldDefinition worldDefinition) {
+        Map<String, DtoEntitiesDetail> entities = new HashMap<>();
         String nameEntity = "";
-        int population = 0;
         boolean isTheFirst = true;
-        for (EntityDefinition entityDefinition: worldDefinitionForSimulation.getEntityDefinitions()) {
-            List<PropertyDefinitionEntity> propertyDefinitionEntityList = new ArrayList<>();
-            if (isTheFirst) {
-                nameEntity = entityDefinition.getEntityName();
-                isTheFirst = false;
-            }
+        for (EntityDefinition entityDefinition: worldDefinition.getEntityDefinitions()) {
+            List<DtoPropertyDetail> propertyDefinitionEntityList = new ArrayList<>();
             for (String key:entityDefinition.getPropertyDefinition().keySet()) {
                 PropertyDefinitionEntity propertyDefinitionEntity = entityDefinition.getPropertyDefinition().get(key);
                 if (propertyDefinitionEntity.getPropertyDefinition().getPropertyRange() == null){
-                    propertyDefinitionEntityList.add(new PropertyDefinitionEntity(
-                            new PropertyDefinition(propertyDefinitionEntity.getPropertyDefinition().getPropertyName(),
-                                    propertyDefinitionEntity.getPropertyDefinition().getPropertyType()),
-                            new Value(propertyDefinitionEntity.getPropValue().getRandomInit(),
-                                    propertyDefinitionEntity.getPropValue().getInit())));
+                    propertyDefinitionEntityList.add(new DtoPropertyDetail(
+                            propertyDefinitionEntity.getPropertyDefinition().getPropertyName(),
+                            propertyDefinitionEntity.getPropertyDefinition().getPropertyType(),
+                            -1,
+                            -1,
+                            propertyDefinitionEntity.getPropValue().getRandomInit(),
+                            propertyDefinitionEntity.getPropValue().getInit()));
                 } else {
-                    propertyDefinitionEntityList.add(new PropertyDefinitionEntity(
-                            new PropertyDefinition(propertyDefinitionEntity.getPropertyDefinition().getPropertyName(),
-                                    propertyDefinitionEntity.getPropertyDefinition().getPropertyType(),
-                                    new Range(propertyDefinitionEntity.getPropertyDefinition().getPropertyRange().getFrom(),
-                                            propertyDefinitionEntity.getPropertyDefinition().getPropertyRange().getTo())),
-                            new Value(propertyDefinitionEntity.getPropValue().getRandomInit(),
-                                    propertyDefinitionEntity.getPropValue().getInit())));
+                    propertyDefinitionEntityList.add(new DtoPropertyDetail(
+                            propertyDefinitionEntity.getPropertyDefinition().getPropertyName(),
+                            propertyDefinitionEntity.getPropertyDefinition().getPropertyType(),
+                            propertyDefinitionEntity.getPropertyDefinition().getPropertyRange().getFrom(),
+                            propertyDefinitionEntity.getPropertyDefinition().getPropertyRange().getTo(),
+                            propertyDefinitionEntity.getPropValue().getRandomInit(),
+                            propertyDefinitionEntity.getPropValue().getInit()));
                 }
             }
-            isTheFirst = true;
-            entities.add( new DtoResponseEntities(nameEntity, propertyDefinitionEntityList));
+            entities.put(entityDefinition.getEntityName(),new DtoEntitiesDetail(entityDefinition.getEntityName(), propertyDefinitionEntityList));
         }
         return entities;
     }
-    private List<DtoResponseRules> getRulesInfoSimulation() {
+    private List<DtoResponseRules> getRulesInfoSimulation(WorldDefinition worldDefinition) {
         List<DtoResponseRules> dtoResponseRules = new ArrayList<>();
         List<DtoActionResponse> ActionName;
         String ruleName = "";
         ActivationForRule activation = null;
-        for (Rule rule: worldDefinitionForSimulation.getRules()) {
+        for (Rule rule: worldDefinition.getRules()) {
             ActionName = new ArrayList<>();
             for (IAction action:rule.getActions()) {
                 ActionName.add(action.getActionResponse());
@@ -139,16 +142,14 @@ public class MainEngine {
 
 
     //func 1
-    public DtoResponse createWorldDefinition(String xmlPath){
-        String resultErrorMsgToUser;
-        XmlParser xmlParserInCheck = new XmlParser(xmlPath);
+    public DtoResponse addWorldDefinition(InputStream inputStream){
+        XmlParser xmlParserInCheck = new XmlParser();
         try {
-            this.xmlWorldDefinition = xmlParserInCheck.tryToReadXml();
-            this.worldDefinitionForSimulation = this.xmlWorldDefinition;
-            if (this.simulationExecutionerManager != null){
-                this.simulationExecutionerManager.disposeThreadPool();
+            this.xmlWorldDefinition = xmlParserInCheck.tryToReadXml(inputStream);
+            // TODO check if the simulation name already in map
+            if (!this.worldDefinitionForSimulation.containsKey(this.xmlWorldDefinition.getWorldName())){
+                this.worldDefinitionForSimulation.put(this.xmlWorldDefinition.getWorldName(), this.xmlWorldDefinition);
             }
-            this.simulationExecutionerManager = new SimulationExecutionerManager(this.worldDefinitionForSimulation.getNumberOfThreads());
             this.dtoAllSimulationsStartingInfo = new DtoBasicSimulationInfo();
         }
         catch(JAXBException | IOException | GeneralException e){
@@ -164,8 +165,8 @@ public class MainEngine {
         return new DtoResponse(Constans.SUCCEED_LOAD_FILE,true);
     }
     //func 2
-    public DtoResponsePreview showCurrentSimulation(){
-        return previewWorldInfo();
+    public List<DtoResponsePreview> showAllDefinitionSimulation(){
+        return previewWorldsInfo();
     }
     //func 3
     public void executeSimulation(DtoUiToEngine envInputFromUser){

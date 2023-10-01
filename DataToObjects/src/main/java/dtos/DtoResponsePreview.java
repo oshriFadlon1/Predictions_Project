@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class DtoResponsePreview {
 
+    private String simulationName;
+
     private Map<String, DtoEnvironmentDetails> dtoEnvironments;
 
     private Map<String, DtoEntitiesDetail> dtoResponseEntities;
@@ -15,7 +17,13 @@ public class DtoResponsePreview {
 
     private int col;
 
-    public DtoResponsePreview(Map<String, DtoEnvironmentDetails> dtoEnvironments, Map<String, DtoEntitiesDetail> dtoResponseEntities, List<DtoResponseRules> dtoResponseRules, int row, int col) {
+    public DtoResponsePreview(String simulationName,
+                              Map<String, DtoEnvironmentDetails> dtoEnvironments,
+                              Map<String, DtoEntitiesDetail> dtoResponseEntities,
+                              List<DtoResponseRules> dtoResponseRules,
+                              int row,
+                              int col) {
+        this.simulationName = simulationName;
         this.dtoEnvironments = dtoEnvironments;
         this.dtoResponseEntities = dtoResponseEntities;
         this.dtoResponseRules = dtoResponseRules;
@@ -61,5 +69,13 @@ public class DtoResponsePreview {
 
     public void setCol(int col) {
         this.col = col;
+    }
+
+    public String getSimulationName() {
+        return simulationName;
+    }
+
+    public void setSimulationName(String simulationName) {
+        this.simulationName = simulationName;
     }
 }

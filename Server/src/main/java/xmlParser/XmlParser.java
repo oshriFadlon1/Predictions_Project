@@ -1,6 +1,6 @@
 package xmlParser;
 
-import dto.DtoActionArgsContainer;
+import com.example.server.engineDtos.DtoActionArgsContainer;
 import entity.EntityDefinition;
 import entity.SecondEntity;
 import enums.CreationType;
@@ -18,18 +18,14 @@ import rule.ActivationForRule;
 import rule.Rule;
 import rule.action.*;
 import shema.generated.*;
-import termination.Termination;
 import utility.Utilities;
 import world.WorldDefinition;
 
-import javax.swing.text.html.parser.Entity;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,44 +33,22 @@ import java.util.Map;
 
 public class XmlParser {
 
-    private String xmlPath;
     private static final String xmlFiles = "shema.generated";
 
-
-    public XmlParser(String xmlPath) {
-        this.xmlPath = xmlPath;
-    }
-
-    public void setXmlPath(String xmlPath) {
-        this.xmlPath = xmlPath;
-    }
-
-    public WorldDefinition tryToReadXml() throws GeneralException, JAXBException, IOException {
-        //here we will try to read the xml.
-        // we will create a new world and extract all the info from the xml file
-        File file = new File(xmlPath);
-        if (!file.exists()) {
-            throw new GeneralException("File does not exist.");
-        }
-
-        String fileName = file.getName();
-        if(!fileName.toLowerCase().endsWith(".xml")){
-           throw new GeneralException("File is not an xml file");
-        }
-
-        InputStream inputStream = Files.newInputStream(new File(xmlPath).toPath());
+    public WorldDefinition tryToReadXml(InputStream inputStream) throws GeneralException, JAXBException, IOException {
         JAXBContext jc = JAXBContext.newInstance(xmlFiles);
         Unmarshaller u = jc.createUnmarshaller();
         PRDWorld output = (PRDWorld)u.unmarshal(inputStream);
         WorldDefinition createdWorld = translateFromXmlToClassInstances(output);
 
-
         return createdWorld;
     }
 
     private WorldDefinition translateFromXmlToClassInstances(PRDWorld prdWorld) throws GeneralException{
-        //getting thread count from xml object
-        int threadCount = prdWorld.getPRDThreadCount();
+
+        // TODO get world name from file
+        String nameOfWorld = ""; //= prdWorld.name;
+
         //getting grid sizes and generating pointcoord according to rows and cols
         PRDWorld.PRDGrid gridOfWorld = prdWorld.getPRDGrid();
         int worldRows = gridOfWorld.getRows();
@@ -84,13 +58,10 @@ public class XmlParser {
         }
 
         PointCoord coordsOfWorld = new PointCoord(worldRows, worldCols);
-        // create the terminations from xml object
-        Termination terminations = createTerminationFromPrdTermination(prdWorld.getPRDTermination());
 
         // create new world
-        WorldDefinition createdWorld = new WorldDefinition(terminations);
+        WorldDefinition createdWorld = new WorldDefinition(nameOfWorld);
         createdWorld.setPointCoord(coordsOfWorld);
-        createdWorld.setThreadCount(threadCount);
         // create the environments form xml object
         Map<String, EnvironmentDefinition> environments = createEnvironmentsFromPrdEnvironment(prdWorld.getPRDEnvironment());
         createdWorld.setAllEnvironments(environments);
@@ -102,36 +73,6 @@ public class XmlParser {
         createdWorld.setRules(rules);
 
         return createdWorld;
-
-    }
-
-    // Fetch termination from PRD
-    private Termination createTerminationFromPrdTermination(PRDTermination prdTermination) {
-        List<Object> listOfTerminations = prdTermination.getPRDBySecondOrPRDByTicks();
-        Termination terminations = null;
-        PRDByTicks elem1 = null;
-        PRDBySecond elem2 = null;
-        Object byUser = prdTermination.getPRDByUser();
-        if(listOfTerminations.size() == 2 ){
-            elem1 = (PRDByTicks)listOfTerminations.get(0);
-            elem2 = (PRDBySecond)listOfTerminations.get(1);
-            terminations = new Termination(elem1.getCount(), elem2.getCount(), false);
-        }
-        else if(listOfTerminations.size() == 1){
-            if(listOfTerminations.get(0) instanceof PRDByTicks){
-                elem1 = (PRDByTicks)listOfTerminations.get(0);
-                terminations = new Termination(elem1.getCount(), -1, false);
-            }
-            else{
-                elem2 = (PRDBySecond)listOfTerminations.get(0);
-                terminations = new Termination(-1, elem2.getCount(), false);
-            }
-        }
-
-        if(byUser != null){
-            terminations = new Termination(-1, -1, true);
-        }
-        return terminations;
     }
 
     // Fetch Environment from PRD
@@ -798,15 +739,4 @@ public class XmlParser {
         returnObj.setPropertyDef(entityDefinition.getPropertyDefinition().get(prdAction.getProperty()));
         return returnObj;
     }
-
-//    public double isNumber(String argument) throws NumberFormatException{
-//        double parsedNumber = Double.parseDouble(argument);
-//    }
-//
-//    public void isPrefixHelpFunction(String ){
-//
-//    }//= "C:\\java_projects\\currentJavaProject\\PDREngine\\src\\resources\\  master-ex1.xml    error3.xml";
-//
-//    // C:\\java_projects\\currentJavaProject\\PDREngine\\src\\resources\\example.xml
-
 }

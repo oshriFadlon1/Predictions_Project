@@ -21,25 +21,22 @@ public class WorldDefinition implements Serializable {
 
     private List<Rule> Rules;
 
-    private Termination termination;
-
     private PointCoord worldSize;
 
-    private int numberOfThreads;
+    private String worldName;
 
 
-    public WorldDefinition(Map<String, EnvironmentDefinition> allEnvironments, List<EntityDefinition> entityDefinitions, List<Rule> rules, Termination termination) {
+    public WorldDefinition(Map<String, EnvironmentDefinition> allEnvironments, List<EntityDefinition> entityDefinitions, List<Rule> rules) {
         this.allEnvironments = allEnvironments;
         this.entityDefinitions = entityDefinitions;
         Rules = rules;
-        this.termination = termination;
     }
 
-    public WorldDefinition(Termination termination) {
+    public WorldDefinition(String worldName) {
         this.allEnvironments = new HashMap<>();
         this.entityDefinitions = new ArrayList<>();
-        Rules = new ArrayList<>();
-        this.termination = termination;
+        this.Rules = new ArrayList<>();
+        this.worldName = worldName;
     }
 
     public Map<String, EnvironmentDefinition> getAllEnvironments() {
@@ -66,20 +63,6 @@ public class WorldDefinition implements Serializable {
         Rules = rules;
     }
 
-    public Termination getTermination() {
-        return termination;
-    }
-
-    public void setTermination(Termination termination) {
-        this.termination = termination;
-    }
-
-//    public void resetEntityDefinition(){
-//        for (EntityDefinition entityDefinition : this.entityDefinitions) {
-//            entityDefinition.setEndPopulation(entityDefinition.getStartPopulation());
-//        }
-//    }
-
     public void setPointCoord(PointCoord coordsOfWorld) {
         this.worldSize = coordsOfWorld;
     }
@@ -88,28 +71,15 @@ public class WorldDefinition implements Serializable {
         return worldSize;
     }
 
-    public int getNumberOfThreads() {
-        return numberOfThreads;
+    public void setWorldSize(PointCoord worldSize) {
+        this.worldSize = worldSize;
     }
 
-    public void setThreadCount(int threadCount) {
-        this.numberOfThreads = threadCount;
+    public String getWorldName() {
+        return worldName;
     }
 
-//    public void setPopulation(int population1, int population2) {
-//        int count = 0;
-//        for (EntityDefinition entityDefinition : this.entityDefinitions) {
-//            if (count == 0)
-//            {
-//                entityDefinition.setStartPopulation(population1);
-//                entityDefinition.setEndPopulation(population1);
-//                count++;
-//            }
-//            else if (count == 1){
-//                entityDefinition.setStartPopulation(population2);
-//                entityDefinition.setEndPopulation(population2);
-//                count++;
-//            }
-//        }
-//    }
+    public void setWorldName(String worldName) {
+        this.worldName = worldName;
+    }
 }
