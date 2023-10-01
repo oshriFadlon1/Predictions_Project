@@ -1,7 +1,7 @@
 package world;
 
 import createAndKillEntities.CreateAndKillEntities;
-import dto.DtoCountTickPopulation;
+import dtos.DtoCountTickPopulation;
 import entity.EntityDefinition;
 import entity.EntityInstance;
 import entity.EntityToPopulation;

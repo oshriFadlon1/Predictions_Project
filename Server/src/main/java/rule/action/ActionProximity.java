@@ -1,6 +1,6 @@
 package rule.action;
 
-import dto.DtoActionResponse;
+import dtos.DtoActionResponse;
 import entity.EntityDefinition;
 import entity.EntityInstance;
 import entity.SecondEntity;

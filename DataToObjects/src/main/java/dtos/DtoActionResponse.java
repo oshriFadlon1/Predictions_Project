@@ -1,7 +1,7 @@
 package dtos;
 
 public class DtoActionResponse {
-    // get form abstract action
+
     private String actionName;
     private String primEntityName;
     private String secEntityName;

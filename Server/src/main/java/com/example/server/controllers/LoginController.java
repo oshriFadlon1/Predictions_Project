@@ -1,18 +1,16 @@
-package com.example.server;
+package com.example.server.controllers;
 
-import controllers.MainEngineService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.server.engine.MainEngine;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class loginInfo {
+public class LoginController {
 
-    private final MainEngineService mainEngine;
+    private final MainEngine mainEngine;
 
-    @Autowired
-    public loginInfo(MainEngineService mainEngine) {
+    public LoginController(MainEngine mainEngine) {
         this.mainEngine = mainEngine;
     }
 

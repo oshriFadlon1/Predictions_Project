@@ -51,36 +51,60 @@ public class AdminManagementController implements Initializable {
 
     @FXML
     private void onLoadButton(){
-        this.client = Main.getCLIENT();
-        Gson gson = new Gson();
+//        this.client = Main.getCLIENT();
+//        Gson gson = new Gson();
         Stage stage = (Stage)rootScrollPane.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("XML Files", "*.xml");
         fileChooser.getExtensionFilters().add(xmlFilter);
-        File selectedFile;
-        selectedFile = fileChooser.showOpenDialog(stage);
-        if (selectedFile == null){
-            return;
-        }
-        String filePath = selectedFile.getAbsolutePath();
+        File file =  fileChooser.showOpenDialog(stage);
+//        if (selectedFile == null){
+//            return;
+//        }
+//      String filePath = selectedFile.getAbsolutePath();
+//
+//        Request loginRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/loadFile").build();
+//        Call call = this.client.newCall(loginRequest);
+//        try{
+//            final Response response = call.execute();
+//           this.labelLoadStatus.setText(response.body().string());
+//           //TODO later need to add simulations to the treeview
+//        }
+//        catch(IOException e){
+//           this.labelLoadStatus.setText("There was a problem with loading the file");
+//        }
 
-        Request loginRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/loadfile").build();
-        Call call = this.client.newCall(loginRequest);
-        try{
-            final Response response = call.execute();
-           this.labelLoadStatus.setText(response.body().string());
-           //TODO later need to add simulations to the treeview
+        OkHttpClient client = new OkHttpClient();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file))
+                .build();
+
+        String url = "http://localhost:8080/upload";
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response);
+            }
+
+            // Handle the response here
+            String responseBody = response.body().string();
+            System.out.println("Response: " + responseBody);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(IOException e){
-           this.labelLoadStatus.setText("There was a problem with loading the file");
-        }
+
     }
 
     @FXML
     private void onButtonThreadCount(){
         try{
             Integer.parseInt(this.textFieldThreadCount.getText());
-            Request threadCountRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/setthreadcount").build();
+            Request threadCountRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/setThreadCount").build();
             Call call = this.client.newCall(threadCountRequest);
             call.enqueue(new Callback() {
                 @Override
@@ -107,7 +131,7 @@ public class AdminManagementController implements Initializable {
             this.client = Main.getCLIENT();
         }
         while(true){
-        Request queueRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/getqueue").build();
+        Request queueRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/getQueue").build();
         Call call = this.client.newCall(queueRequest);
         call.enqueue(new Callback() {
             @Override
