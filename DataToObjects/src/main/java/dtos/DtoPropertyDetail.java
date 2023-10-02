@@ -69,4 +69,16 @@ public class DtoPropertyDetail {
     public void setInit(String init) {
         this.init = init;
     }
+
+    @Override
+    public String toString() {
+        return "DtoPropertyDetail{" +
+                "propertyName='" + propertyName + '\'' +
+                ", propertyType='" + propertyType + '\'' +
+                ", from=" + from +
+                ", to=" + to +
+                ", randomInit=" + randomInit +
+                ", init='" + init + '\'' +
+                '}';
+    }
 }

@@ -26,4 +26,12 @@ public class DtoEntitiesDetail {
     public void setPropertyDefinitionEntityList(List<DtoPropertyDetail> propertyDefinitionEntityList) {
         this.propertyDefinitionEntityList = propertyDefinitionEntityList;
     }
+
+    @Override
+    public String toString() {
+        return "DtoEntitiesDetail{" +
+                "entityName='" + entityName + '\'' +
+                ", propertyDefinitionEntityList=" + propertyDefinitionEntityList +
+                '}';
+    }
 }

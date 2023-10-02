@@ -17,17 +17,17 @@
          <children>
             <GridPane layoutY="6.0">
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -38,7 +38,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Qeueue manager :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                  <Label text="Queue manager :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                   <Label text="Simulations in progress :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <Label text="Ended simulations :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="4" />
                   <Label text="Simulations pending :" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="5" />
@@ -51,8 +51,11 @@
                         <Insets right="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <AnchorPane prefWidth="198.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="3" />
-                  <Button fx:id="buttonThreadCount" mnemonicParsing="false" onAction="#onButtonThreadCount" text="Set threads count" GridPane.columnIndex="9" GridPane.columnSpan="2" />
+                  <AnchorPane GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="3" />
+                  <Button fx:id="buttonThreadCount" mnemonicParsing="false" onAction="#onButtonThreadCount" text="Set threads count" GridPane.columnIndex="9" GridPane.columnSpan="2">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin></Button>
                   <Label text="File status :" GridPane.rowIndex="3">
                      <font>
                         <Font size="15.0" />
@@ -61,8 +64,8 @@
                      <font>
                         <Font size="15.0" />
                      </font></Label>
-                  <TextField fx:id="textFieldThreadCount" prefHeight="25.0" prefWidth="44.0" GridPane.columnIndex="8" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
-                  <Label fx:id="labelThreadCountMsg" text="Label" visible="false" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                  <TextField fx:id="textFieldThreadCount" prefHeight="25.0" prefWidth="44.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
+                  <Label fx:id="labelThreadCountMsg" text="Label" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="4" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>

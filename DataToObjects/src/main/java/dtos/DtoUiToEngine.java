@@ -3,18 +3,20 @@ package dtos;
 import java.util.Map;
 
 public class DtoUiToEngine {
+    private String nameOfSimulation;
     private  Map<String, Object> environmentToValue;
     private int population1;
     private int population2;
     private String primaryEntityName;
     private String secondaryEntityName;
 
-    public DtoUiToEngine(Map<String, Object> environmentToValue, int population1, int population2, String primaryEntName, String secondaryEntName) {
+    public DtoUiToEngine(String nameOfSimulation, Map<String, Object> environmentToValue, int population1, int population2, String primaryEntityName, String secondaryEntityName) {
+        this.nameOfSimulation = nameOfSimulation;
         this.environmentToValue = environmentToValue;
         this.population1 = population1;
         this.population2 = population2;
-        this.primaryEntityName = primaryEntName;
-        this.secondaryEntityName = secondaryEntName;
+        this.primaryEntityName = primaryEntityName;
+        this.secondaryEntityName = secondaryEntityName;
     }
 
     public Map<String, Object> getEnvironmentToValue() {
@@ -47,5 +49,21 @@ public class DtoUiToEngine {
 
     public String getSecondaryEntityName() {
         return secondaryEntityName;
+    }
+
+    public String getNameOfSimulation() {
+        return nameOfSimulation;
+    }
+
+    public void setNameOfSimulation(String nameOfSimulation) {
+        this.nameOfSimulation = nameOfSimulation;
+    }
+
+    public void setPrimaryEntityName(String primaryEntityName) {
+        this.primaryEntityName = primaryEntityName;
+    }
+
+    public void setSecondaryEntityName(String secondaryEntityName) {
+        this.secondaryEntityName = secondaryEntityName;
     }
 }
