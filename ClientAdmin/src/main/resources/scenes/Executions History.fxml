@@ -50,10 +50,10 @@
               </rowConstraints>
                <children>
                   <Label text="All simulations" GridPane.columnSpan="2" />
-                  <ListView fx:id="listViewSimulations" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="6" />
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="10" GridPane.rowIndex="7" GridPane.rowSpan="5">
+                  <ListView fx:id="listViewSimulations" onMouseClicked="#selectedListViewValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="6" />
+                  <HBox fx:id="hboxFinalDetails" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnSpan="10" GridPane.rowIndex="7" GridPane.rowSpan="5">
                      <children>
-                        <BarChart title="Population during simulation">
+                        <BarChart prefWidth="501.0" title="Population during simulation">
                           <xAxis>
                             <CategoryAxis label="Tick" side="BOTTOM" />
                           </xAxis>
@@ -61,12 +61,12 @@
                             <NumberAxis label="Population" side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <VBox>
+                        <VBox fx:id="vbo">
                            <children>
                               <Label text="entity name:" />
-                              <ComboBox prefWidth="150.0" />
+                              <ComboBox fx:id="comboBoxEntityName" onAction="#selectedComboBoxEntityName" prefWidth="150.0" />
                               <Label text="entity property: " />
-                              <ComboBox prefWidth="150.0" />
+                              <ComboBox fx:id="comboBoxEntityProperty" onAction="#selectedComboBoxEntityProperty" prefWidth="150.0" />
                               <Label text="Histogram of property" />
                               <TableView>
                                 <columns>
@@ -104,7 +104,7 @@
                   </HBox>
                   <Label text="Simulation id: " GridPane.columnIndex="3" GridPane.columnSpan="2" />
                   <Label fx:id="labelSimulationId" text="ID" GridPane.columnIndex="5" />
-                  <TableView fx:id="tableViewEntities" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="3">
+                  <TableView fx:id="tableViewEntities" onKeyPressed="#selectedEntityTableValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="3">
                     <columns>
                       <TableColumn fx:id="columnEntityName" prefWidth="152.0" text="Entity" />
                       <TableColumn fx:id="columnPopulationStart" prefWidth="144.800048828125" text="Start population" />
@@ -116,7 +116,7 @@
                   <Label text="Request number:" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <Label fx:id="labelSimulationName" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Label fx:id="labelSimulationUsername" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                  <TableView fx:id="tableViewEnvironments" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="3">
+                  <TableView fx:id="tableViewEnvironments" onKeyPressed="#selectedEnvironmentTableValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="3">
                      <columns>
                         <TableColumn fx:id="columnEnvName" prefWidth="152.0" text="Environment name" />
                         <TableColumn fx:id="columnEnvValue" prefWidth="144.800048828125" text="value" />

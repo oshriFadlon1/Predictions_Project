@@ -114,8 +114,10 @@ public class AdminManagementController implements Initializable {
 
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    labelThreadCountMsg.setText("Updated thread count");
-                    labelThreadCountMsg.setVisible(true);
+                    Platform.runLater(()->{;
+                        labelThreadCountMsg.setText("Updated thread count");
+                        labelThreadCountMsg.setVisible(true);
+                    });
                 }
             });
         }
