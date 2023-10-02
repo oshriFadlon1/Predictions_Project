@@ -30,14 +30,6 @@ public class SimulationExecutionerManager {
         this.countOfThreadInWork = 0;
     }
 
-    public int getThreadPoolSize() {
-        return threadPoolSize;
-    }
-
-    public void setThreadPoolSize(int threadPoolSize) {
-        this.threadPoolSize = threadPoolSize;
-    }
-
     public void addCurrentSimulationToManager(WorldInstance worldInstance) {
         this.idToSimulationMap.put(GeneralInformation.getIdOfSimulation(), worldInstance);
         this.currentThreadPool.execute(worldInstance);
@@ -231,5 +223,10 @@ public class SimulationExecutionerManager {
 
     public int getNumberOfSimulation(){
         return this.idToSimulationMap.size();
+    }
+
+    public void UpdateThreadPool(int newNumberOfThreads){
+     this.currentThreadPool.shutdown();
+     this.currentThreadPool = Executors.newFixedThreadPool(newNumberOfThreads);
     }
 }

@@ -51,28 +51,13 @@ public class AdminManagementController implements Initializable {
 
     @FXML
     private void onLoadButton(){
-//        this.client = Main.getCLIENT();
-//        Gson gson = new Gson();
         Stage stage = (Stage)rootScrollPane.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("XML Files", "*.xml");
         fileChooser.getExtensionFilters().add(xmlFilter);
         File file =  fileChooser.showOpenDialog(stage);
-//        if (selectedFile == null){
-//            return;
-//        }
-//      String filePath = selectedFile.getAbsolutePath();
-//
-//        Request loginRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/loadFile").build();
-//        Call call = this.client.newCall(loginRequest);
-//        try{
-//            final Response response = call.execute();
-//           this.labelLoadStatus.setText(response.body().string());
-//           //TODO later need to add simulations to the treeview
-//        }
-//        catch(IOException e){
-//           this.labelLoadStatus.setText("There was a problem with loading the file");
-//        }
+
+           //TODO later need to add simulations to the treeview
 
         OkHttpClient client = new OkHttpClient();
 
@@ -81,7 +66,7 @@ public class AdminManagementController implements Initializable {
                 .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file))
                 .build();
 
-        String url = "http://localhost:8080/upload";
+        String url = "http://localhost:8080/admin/upload";
         Request request = new Request.Builder()
                 .url(url)
                 .post(requestBody)
@@ -103,8 +88,12 @@ public class AdminManagementController implements Initializable {
     @FXML
     private void onButtonThreadCount(){
         try{
-            Integer.parseInt(this.textFieldThreadCount.getText());
-            Request threadCountRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/setThreadCount").build();
+            String numberOfThreadAsString = this.textFieldThreadCount.getText();
+
+            MediaType mediaType = MediaType.parse("text/plain");
+            RequestBody requestBody = RequestBody.create(mediaType, numberOfThreadAsString);
+            Request threadCountRequest = new Request.Builder().url(Main.getBaseUrl() + "/admin/setThreadCount").patch(requestBody).build();
+
             Call call = this.client.newCall(threadCountRequest);
             call.enqueue(new Callback() {
                 @Override
@@ -114,7 +103,7 @@ public class AdminManagementController implements Initializable {
 
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    Platform.runLater(()->{;
+                    Platform.runLater(() -> {
                         labelThreadCountMsg.setText("Updated thread count");
                         labelThreadCountMsg.setVisible(true);
                     });
@@ -144,16 +133,18 @@ public class AdminManagementController implements Initializable {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 Gson gson = new Gson();
-                DtoQueueManagerInfo queueManagerInfo= gson.fromJson(response.body().string(), DtoQueueManagerInfo.class);
-                Platform.runLater(()->{
-                    labelSimulationsEnded.setText(queueManagerInfo.getCountOfSimulationEnded());
-                    labelSimulationsPending.setText(queueManagerInfo.getCountOfSimulationsPending());
-                    labelSimulationsProgress.setText(queueManagerInfo.getCountOfSimulationInProgress());
-                });
+                DtoQueueManagerInfo queueManagerInfo = gson.fromJson(response.body().string(), DtoQueueManagerInfo.class);
+                if (queueManagerInfo != null){
+                    Platform.runLater(()->{
+                        labelSimulationsEnded.setText(queueManagerInfo.getCountOfSimulationEnded());
+                        labelSimulationsPending.setText(queueManagerInfo.getCountOfSimulationsPending());
+                        labelSimulationsProgress.setText(queueManagerInfo.getCountOfSimulationInProgress());
+                    });
+                }
             }
         });
             try {
-                Thread.sleep(1500);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

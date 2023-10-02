@@ -78,4 +78,16 @@ public class DtoResponsePreview {
     public void setSimulationName(String simulationName) {
         this.simulationName = simulationName;
     }
+
+    @Override
+    public String toString() {
+        return "DtoResponsePreview{" +
+                "simulationName='" + simulationName + '\'' +
+                ", dtoEnvironments=" + dtoEnvironments +
+                ", dtoResponseEntities=" + dtoResponseEntities +
+                ", dtoResponseRules=" + dtoResponseRules +
+                ", row=" + row +
+                ", col=" + col +
+                '}';
+    }
 }

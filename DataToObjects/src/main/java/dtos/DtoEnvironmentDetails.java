@@ -47,4 +47,14 @@ public class DtoEnvironmentDetails {
     public void setTo(float to) {
         this.to = to;
     }
+
+    @Override
+    public String toString() {
+        return "DtoEnvironmentDetails{" +
+                "propertyName='" + propertyName + '\'' +
+                ", propertyType='" + propertyType + '\'' +
+                ", from=" + from +
+                ", to=" + to +
+                '}';
+    }
 }
