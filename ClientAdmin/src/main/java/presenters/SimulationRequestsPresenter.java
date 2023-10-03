@@ -50,4 +50,8 @@ public class SimulationRequestsPresenter {
     public int getFinishedRuns() {
         return finishedRuns;
     }
+
+    public void setRequestStatus(String requestStatus) {
+        this.requestStatus = approved;
+    }
 }

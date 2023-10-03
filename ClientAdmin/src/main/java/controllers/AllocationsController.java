@@ -102,7 +102,6 @@ public class AllocationsController implements Initializable {
                     }
                 }
             });
-            //TODO need to create a new dto called DtoSimulationsRequests
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
@@ -158,6 +157,7 @@ public class AllocationsController implements Initializable {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                currentSelectedSimulationRequest.setRequestStatus("approved");
                 //TODO need to figure out what to do when the admin approves the request
             }
         });
@@ -179,6 +179,7 @@ public class AllocationsController implements Initializable {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                currentSelectedSimulationRequest.setRequestStatus("denied");
                 //TODO need to figure out what to do when the admin rejects the request
             }
         });

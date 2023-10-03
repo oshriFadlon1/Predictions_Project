@@ -236,7 +236,6 @@ public class ExecutionsHistoryController implements Initializable {
                 }
             });
         }
-
     }
     @FXML
     private void selectedComboBoxEntityProperty(){
@@ -333,7 +332,6 @@ public class ExecutionsHistoryController implements Initializable {
                             seriesEntity1.setName(dtoCountTickPopulation.getEntity1Name());
                             seriesEntity1.getData().add(new XYChart.Data<>(String.valueOf(dtoCountTickPopulation.getCurrentTick()), dtoCountTickPopulation.getPopulationEntity1()));
                         }
-
                     }
                     count++;
                 }
