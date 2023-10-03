@@ -2,9 +2,8 @@ package com.example.server.controllers;
 
 import com.example.server.engine.MainEngine;
 import com.example.server.engineDtos.DtoResponseToController;
-import dtos.DtoHistogramInfo;
-import dtos.DtoQueueManagerInfo;
-import dtos.DtoResponsePreview;
+import dtos.*;
+import dtos.admin.DtoFinalSimulationsDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +47,29 @@ public class AdminController {
         DtoResponseToController response = mainEngine.updateNumberOfThread(Integer.parseInt(intValue));
         return ResponseEntity.ok(response);
     }
-
+    // to check if needt to convert from string to int
     @GetMapping("/fetchHistogramInfo")
     public DtoHistogramInfo fetchHistogramInfo(@RequestParam("simulationId") int simulationId, @RequestParam("entityName") String entityName, @RequestParam("propertyName") String propertyName){
         return mainEngine.fetchInfoOnChosenProperty(simulationId, entityName, propertyName);
+    }
+    // to check if needt to convert from string to int
+    @GetMapping("/fetchFinalSimulationDetails")
+    public DtoFinalSimulationsDetails fetchFinalSimulationDetails(@RequestParam("simulationId") int simulationId){
+        return mainEngine.getFinalSimulationDetails(simulationId);
+    }
+    // to check if needt to convert from string to int
+    @GetMapping("/fetchAllProperties")
+    public List<String> bringPropertiesByEntityName(@RequestParam("simulationId") int simulationId, @RequestParam("entityName") String entityName){
+        return mainEngine.bringPropertiesByEntityName(simulationId, entityName);
+    }
+    // to check if needt to convert from string to int
+    @GetMapping("/fetchBarChartDetails")
+    public  List<DtoCountTickPopulation> getSimulationListOfPopulationPerTick(@RequestParam("simulationId") int simulationId){
+        return mainEngine.getSimulationListOfPopulationPerTick(simulationId);
+    }
+
+    @GetMapping("/fetchAllEndedSimulations")
+    public List<DtoFinalSimulationsDetails> fetchAllEndedSimulations(){
+        return mainEngine.fetchAllEndedSimulations();
     }
 }

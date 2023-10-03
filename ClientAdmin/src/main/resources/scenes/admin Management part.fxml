@@ -46,7 +46,7 @@
                   <Label fx:id="labelSimulationsEnded" text="Label" GridPane.columnIndex="8" GridPane.rowIndex="4" />
                   <Label fx:id="labelSimulationsPending" text="Label" GridPane.columnIndex="8" GridPane.rowIndex="5" />
                   <Button fx:id="buttonLoadFile" mnemonicParsing="false" onAction="#onLoadButton" prefHeight="26.0" prefWidth="174.0" text="Load File Button" GridPane.columnSpan="2" />
-                  <TextField GridPane.columnIndex="2" GridPane.columnSpan="3">
+                  <TextField GridPane.columnIndex="2" GridPane.columnSpan="4">
                      <GridPane.margin>
                         <Insets right="3.0" />
                      </GridPane.margin>
