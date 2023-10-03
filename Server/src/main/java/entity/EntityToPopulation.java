@@ -3,10 +3,12 @@ package entity;
 public class EntityToPopulation {
     private EntityDefinition currEntityDef;
     private int currEntityPopulation;
+    private int startEntityPopulation;
 
-    public EntityToPopulation(EntityDefinition currEntityDef, int currEntityPopulation) {
+    public EntityToPopulation(EntityDefinition currEntityDef, int currEntityPopulation, int startEntityPopulation) {
         this.currEntityDef = currEntityDef;
         this.currEntityPopulation = currEntityPopulation;
+        this.startEntityPopulation = startEntityPopulation;
     }
 
     public EntityDefinition getCurrEntityDef() {
@@ -25,11 +27,20 @@ public class EntityToPopulation {
         this.currEntityPopulation = currEntityPopulation;
     }
 
+    public int getStartEntityPopulation() {
+        return startEntityPopulation;
+    }
+
+    public void setStartEntityPopulation(int startEntityPopulation) {
+        this.startEntityPopulation = startEntityPopulation;
+    }
+
     @Override
     public String toString() {
         return "EntityToPopulation{" +
                 "currEntityDef=" + currEntityDef +
                 ", currEntityPopulation=" + currEntityPopulation +
+                ", startEntityPopulation=" + startEntityPopulation +
                 '}';
     }
 }

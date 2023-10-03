@@ -35,8 +35,6 @@ public class WorldInstance implements Serializable, Runnable {
     private List<EntityInstance> entitiesToKill;
     private List<CreateAndKillEntities> entitiesToKillAndReplace;
     private WorldPhysicalSpace physicalSpace;
-//    private int primaryEntityPopulation;
-//    private int secondaryEntityPopulation;
     private int currentTick;
     private long currentTimePassed;
     private long currentTimeResume;

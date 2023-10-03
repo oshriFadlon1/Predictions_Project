@@ -11,7 +11,13 @@ public class DtoFinalSimulationsDetails {
     private Map<String, Integer> mapEntityToEndPopulation;
     private Map<String, Object> mapEnvToValue;
 
-    public DtoFinalSimulationsDetails(int simulationId, String userName, String simulationName, int requestNumber, Map<String, Integer> mapEntityToStartPopulation, Map<String, Integer> mapEntityToEndPopulation, Map<String, Object> mapEnvToValue) {
+    public DtoFinalSimulationsDetails(int simulationId,
+                                      String userName,
+                                      String simulationName,
+                                      int requestNumber,
+                                      Map<String, Integer> mapEntityToStartPopulation,
+                                      Map<String, Integer> mapEntityToEndPopulation,
+                                      Map<String, Object> mapEnvToValue) {
         this.simulationId = simulationId;
         this.userName = userName;
         this.simulationName = simulationName;

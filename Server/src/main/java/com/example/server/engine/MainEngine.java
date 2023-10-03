@@ -3,27 +3,22 @@ package com.example.server.engine;
 import com.example.server.engineDtos.DtoResponseToController;
 import constans.Constans;
 import dtos.*;
+import dtos.admin.DtoFinalSimulationsDetails;
 import entity.EntityDefinition;
-import entity.EntityToPopulation;
 import environment.EnvironmentDefinition;
-import environment.EnvironmentInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import property.*;
-import range.Range;
 import rule.ActivationForRule;
 import rule.Rule;
 import rule.action.IAction;
 import simulationmanager.SimulationExecutionerManager;
 import utility.Utilities;
-import world.GeneralInformation;
 import world.WorldDefinition;
-import world.WorldInstance;
 import exceptions.GeneralException;
 import xmlParser.XmlParser;
 import javax.xml.bind.JAXBException;
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -327,4 +322,11 @@ public class MainEngine {
         return new DtoResponseToController("Successfully updated.", HttpStatus.OK, true);
     }
 
+    public DtoFinalSimulationsDetails getFinalSimulationDetails(int simulationId) {
+        return this.simulationExecutionerManager.getFinalSimulationDetails(simulationId);
+    }
+
+    public List<DtoFinalSimulationsDetails> fetchAllEndedSimulations() {
+        return this.simulationExecutionerManager.fetchAllEndedSimulations();
+    }
 }
