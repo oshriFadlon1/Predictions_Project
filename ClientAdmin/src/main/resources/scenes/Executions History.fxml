@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExecutionsHistoryController">
   <content>
@@ -51,9 +52,9 @@
                <children>
                   <Label text="All simulations" GridPane.columnSpan="2" />
                   <ListView fx:id="listViewSimulations" onMouseClicked="#selectedListViewValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="6" />
-                  <HBox fx:id="hboxFinalDetails" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnSpan="10" GridPane.rowIndex="7" GridPane.rowSpan="5">
+                  <HBox fx:id="hboxFinalDetails" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="10" GridPane.rowIndex="7" GridPane.rowSpan="5">
                      <children>
-                        <BarChart prefWidth="501.0" title="Population during simulation">
+                        <BarChart fx:id="barChartPopulation" prefWidth="501.0" title="Population during simulation">
                           <xAxis>
                             <CategoryAxis label="Tick" side="BOTTOM" />
                           </xAxis>
@@ -68,10 +69,10 @@
                               <Label text="entity property: " />
                               <ComboBox fx:id="comboBoxEntityProperty" onAction="#selectedComboBoxEntityProperty" prefWidth="150.0" />
                               <Label text="Histogram of property" />
-                              <TableView>
+                              <TableView fx:id="tableViewHistogramInfo">
                                 <columns>
-                                  <TableColumn prefWidth="130.39999389648438" text="Property value" />
-                                  <TableColumn prefWidth="113.60003662109375" text="count" />
+                                  <TableColumn fx:id="columnPropertyVal" prefWidth="130.39999389648438" text="Property value" />
+                                  <TableColumn fx:id="columnPropertyCount" prefWidth="113.60003662109375" text="count" />
                                 </columns>
                               </TableView>
                            </children>
@@ -88,10 +89,22 @@
                               <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text=" avg. consistency " GridPane.columnSpan="2" />
-                              <Label text="avg. value" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-                              <Label text="avg. in final population" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                              <Label text="avg. in final population value" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                              <Label text=" avg. consistency " textFill="#0400fc" GridPane.columnSpan="2" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Label>
+                              <Label fx:id="labelAvgTickValue" text="avg. value" GridPane.columnSpan="2" GridPane.valignment="BOTTOM">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font></Label>
+                              <Label text="avg. in final population" textFill="#1900fc" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Label>
+                              <Label fx:id="labelAvgPropertyValue" text="avg. in final population " GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                            </children>
                            <opaqueInsets>
                               <Insets />
