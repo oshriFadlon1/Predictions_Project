@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="backGroundStyle" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.controller.EnvironmentComponentController">
+   <children>
+      <Label id="terminationInfo" fx:id="envType" layoutX="5.0" layoutY="41.0" text="Type :" />
+      <Label id="terminationInfo" fx:id="envRange" layoutX="6.0" layoutY="79.0" text="Range :" />
+      <Label id="terminationInfo" fx:id="envName" layoutX="5.0" layoutY="4.0" text="Environment name :" />
+      <Label id="terminationInfo" fx:id="valueOfName" layoutX="7.0" layoutY="24.0" text="Label" />
+      <Label id="terminationInfo" fx:id="valueOfType" layoutX="6.0" layoutY="58.0" text="Label" />
+      <Label id="terminationInfo" fx:id="valueOfRange" layoutX="6.0" layoutY="99.0" text="Label" />
+   </children>
+</AnchorPane>
