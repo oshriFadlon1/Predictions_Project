@@ -52,6 +52,6 @@ public class SimulationRequestsPresenter {
     }
 
     public void setRequestStatus(String requestStatus) {
-        this.requestStatus = approved;
+        this.requestStatus = requestStatus;
     }
 }

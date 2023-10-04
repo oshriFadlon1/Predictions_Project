@@ -57,7 +57,7 @@ public class AdminController {
     public DtoFinalSimulationsDetails fetchFinalSimulationDetails(@RequestParam("simulationId") int simulationId){
         return mainEngine.getFinalSimulationDetails(simulationId);
     }
-    // to check if needt to convert from string to int
+    // to check if need to convert from string to int
     @GetMapping("/fetchAllProperties")
     public List<String> bringPropertiesByEntityName(@RequestParam("simulationId") int simulationId, @RequestParam("entityName") String entityName){
         return mainEngine.bringPropertiesByEntityName(simulationId, entityName);

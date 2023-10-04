@@ -22,7 +22,6 @@ public class AdminMenuController implements Initializable {
     private AllocationsController allocationsController;
     private AdminManagementController adminManagementController;
     private ExecutionsHistoryController executionsHistoryController;
-    private SimulationDetailsController simulationDetailsController;
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -31,7 +30,7 @@ public class AdminMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ScrollPane nestedControllersContainer;
         FXMLLoader loaderManagement = new FXMLLoader();
-        URL mainFXML = getClass().getResource("/scenes/admin Management part.fxml");
+        URL mainFXML = getClass().getResource("/scenes/adminManagementPart.fxml");
         loaderManagement.setLocation(mainFXML);
         try {
             nestedControllersContainer = loaderManagement.load();

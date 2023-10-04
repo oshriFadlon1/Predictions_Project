@@ -117,7 +117,7 @@
                   </HBox>
                   <Label text="Simulation id: " GridPane.columnIndex="3" GridPane.columnSpan="2" />
                   <Label fx:id="labelSimulationId" text="ID" GridPane.columnIndex="5" />
-                  <TableView fx:id="tableViewEntities" onKeyPressed="#selectedEntityTableValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="3">
+                  <TableView fx:id="tableViewEntities" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="3">
                     <columns>
                       <TableColumn fx:id="columnEntityName" prefWidth="152.0" text="Entity" />
                       <TableColumn fx:id="columnPopulationStart" prefWidth="144.800048828125" text="Start population" />
@@ -129,7 +129,7 @@
                   <Label text="Request number:" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <Label fx:id="labelSimulationName" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Label fx:id="labelSimulationUsername" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                  <TableView fx:id="tableViewEnvironments" onKeyPressed="#selectedEnvironmentTableValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="3">
+                  <TableView fx:id="tableViewEnvironments" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="3">
                      <columns>
                         <TableColumn fx:id="columnEnvName" prefWidth="152.0" text="Environment name" />
                         <TableColumn fx:id="columnEnvValue" prefWidth="144.800048828125" text="value" />

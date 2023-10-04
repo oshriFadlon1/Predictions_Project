@@ -21,7 +21,7 @@ import java.net.URL;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main extends Application {
     private static OkHttpClient CLIENT = new OkHttpClient();
-    private static String BASE_URL = "http://localhost:8080";
+    private static String BASE_URL = "http://localhost:8080";//Server";
 
     public static void main(String[] args) {
 //        Request loginRequest = new Request.Builder().url(BASE_URL + "/admin/login").build();
