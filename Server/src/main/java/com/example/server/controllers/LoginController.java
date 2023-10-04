@@ -14,9 +14,8 @@ public class LoginController {
         this.mainEngine = mainEngine;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/health")
     public String index(@RequestParam String userName) {
-        System.out.println("Greetings from Spring Boot! to " + userName);
-        return "Greetings from Spring Boot! to " + userName;
+        return "Server is running";
     }
 }
