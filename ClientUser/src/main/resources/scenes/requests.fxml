@@ -51,7 +51,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <ComboBox promptText="Please choose" />
+                              <ComboBox fx:id="comboBoxSimulations" onAction="#selectedComboBoxSimulation" promptText="Please choose" />
                            </children>
                            <HBox.margin>
                               <Insets right="2.0" />
@@ -64,7 +64,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <TextField />
+                              <TextField fx:id="textFieldNumberOfRuns" />
                            </children>
                            <HBox.margin>
                               <Insets right="2.0" />
@@ -87,36 +87,36 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <CheckBox mnemonicParsing="false" text="Seconds" GridPane.rowIndex="1" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <CheckBox mnemonicParsing="false" text="Ticks" GridPane.rowIndex="2" />
-                              <CheckBox mnemonicParsing="false" text="Free choice" GridPane.rowIndex="3" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="checkBoxSeconds" mnemonicParsing="false" text="Seconds" GridPane.rowIndex="1" />
+                              <TextField fx:id="textFieldSeconds" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="checkBoxTicks" mnemonicParsing="false" text="Ticks" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="checkBoxFreeChoice" mnemonicParsing="false" text="Free choice" GridPane.rowIndex="3" />
+                              <TextField fx:id="textFieldTicks" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <Button mnemonicParsing="false" text="Submit request">
+                        <Button fx:id="buttonSubmitRequest" mnemonicParsing="false" onAction="#onButtonSubmit" text="Submit request">
                            <HBox.margin>
                               <Insets left="10.0" top="25.0" />
                            </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
-                  <TableView prefHeight="127.0" prefWidth="594.0" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2">
-                    <columns>
-                      <TableColumn prefWidth="90.39999240636826" text="Request id" />
-                      <TableColumn prefWidth="113.5999984741211" text="Simulation name" />
-                        <TableColumn prefWidth="119.20002746582031" text="Requested Runs" />
-                        <TableColumn minWidth="0.0" prefWidth="104.79998779296875" text="Request status" />
-                        <TableColumn minWidth="7.0" prefWidth="134.40005493164062" text="Simulations running" />
-                        <TableColumn prefWidth="144.0" text="Simulations remain" />
-                    </columns>
-                  </TableView>
-                  <Button mnemonicParsing="false" text="Execute" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-                  <Label text="error label" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                  <Button fx:id="buttonExecute" mnemonicParsing="false" onAction="#onButtonExecute" text="Execute" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                  <Label fx:id="labelMsg" text="error label" GridPane.columnSpan="2" GridPane.rowIndex="4">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <TableView fx:id="tableViewRequests" onMouseClicked="#selectedTableViewItem" prefHeight="127.0" prefWidth="594.0" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2">
+                    <columns>
+                      <TableColumn fx:id="columnRequestId" prefWidth="90.39999240636826" text="Request id" />
+                      <TableColumn fx:id="columnSimulationName" prefWidth="113.5999984741211" text="Simulation name" />
+                        <TableColumn fx:id="columnRequestedRuns" prefWidth="119.20002746582031" text="Requested Runs" />
+                        <TableColumn fx:id="columnRequestStatus" minWidth="0.0" prefWidth="104.79998779296875" text="Request status" />
+                        <TableColumn fx:id="columnSimulationsRunning" minWidth="7.0" prefWidth="134.40005493164062" text="Simulations running" />
+                        <TableColumn fx:id="columnSimulationsRemain" prefWidth="144.0" text="Simulations remain" />
+                    </columns>
+                  </TableView>
                </children>
             </GridPane>
          </children></AnchorPane>
