@@ -17,17 +17,18 @@ import java.util.ResourceBundle;
 
 import okhttp3.*;
 import okio.Timeout;
+import org.example.Main;
 import org.jetbrains.annotations.NotNull;
 
 public class LoginController implements Initializable {
     private Stage primaryStage;
     private Scene scene;
-    private static final OkHttpClient CLIENT = new OkHttpClient();
-    private static final String BASE_URL = "http://localhost:8080";
     @FXML
     private Label labelError;
     @FXML
     private TextField textFIeldUserName;
+    private OkHttpClient client;
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -39,31 +40,21 @@ public class LoginController implements Initializable {
             return;
         }
 
-//        Request loginRequest = new Request.Builder().url(BASE_URL + "/login?username=" + this.textFIeldUserName.getText()).build();
-//        Call call = this.CLIENT.newCall(loginRequest);
-//        try{
-//            final Response response = call.execute();
-//            if(response.body().string().equalsIgnoreCase("false")){
-//                printErrorMsg("Username " + this.textFIeldUserName.getText() + " is already logged in");
-//            }
-//            else{
-//                switchToUserScene();
-//            }
-//        }
-//        catch(IOException e){
-//            printErrorMsg("There was a probelm connecting");
-//        }
-
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        MediaType mediaType = MediaType.parse("text/plain");
-        Request request = new Request.Builder()
-                .url("http://localhost:8080/login?userName=" + this.textFIeldUserName.getText())
-                .build();
-        Response response = client.newCall(request).execute();
-
-        System.out.println(response.body().string());
-        switchToUserScene();
+        Request loginRequest = new Request.Builder().url(Main.getBaseUrl() + "/user/login?username=" + this.textFIeldUserName.getText()).build();
+        Call call = this.client.newCall(loginRequest);
+        try{
+            final Response response = call.execute();
+            if(response.body().string().equalsIgnoreCase("false")){
+                printErrorMsg("Username " + this.textFIeldUserName.getText() + " is already logged in");
+            }
+            else{
+               Main.setUserName(this.textFIeldUserName.getText());
+                switchToUserScene();
+            }
+        }
+        catch(IOException e){
+            printErrorMsg("There was a probelm connecting");
+        }
     }
 
     private void printErrorMsg(String errorMsg) {
@@ -77,8 +68,9 @@ public class LoginController implements Initializable {
         this.primaryStage.setScene(scene2);
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        this.client = Main.getClient();
     }
 }

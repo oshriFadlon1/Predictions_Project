@@ -3,6 +3,10 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,27 +16,104 @@ public class ResultsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+    @FXML
+    private Label avgPropertyValue;
 
     @FXML
-    private void selectedItem() {
+    private Label avgTickValue;
+
+    @FXML
+    private BarChart<?, ?> barchartPopulation;
+
+    @FXML
+    private Button buttonPause;
+
+    @FXML
+    private Button buttonRerun;
+
+    @FXML
+    private Button buttonResume;
+
+    @FXML
+    private Button buttonStop;
+
+    @FXML
+    private TableColumn<?, ?> columnCount;
+
+    @FXML
+    private TableColumn<?, ?> columnValue;
+
+    @FXML
+    private ComboBox<?> comboBoxEntityName;
+
+    @FXML
+    private ComboBox<?> comboBoxEntityProperty;
+
+    @FXML
+    private HBox hboxFinalDetails;
+
+    @FXML
+    private Label labelCurrTick;
+
+    @FXML
+    private Label labelCurrTimer;
+
+    @FXML
+    private Label labelIdSimulation;
+
+    @FXML
+    private Label labelSimulationId;
+
+    @FXML
+    private Label labelSimulationStatus;
+
+    @FXML
+    private ListView<?> listViewSimulations;
+
+    @FXML
+    private TableColumn<?, ?> tableColumnEntity;
+
+    @FXML
+    private TableColumn<?, ?> tableColumnPopulation;
+
+    @FXML
+    private TableView<?> tableViewEntities;
+
+    @FXML
+    private TableView<?> tableViewHistogram;
+
+    @FXML
+    void ReRunSimulation(ActionEvent event) {
 
     }
 
-    public void onStopPressed(ActionEvent actionEvent) {
+    @FXML
+    void onPausePressed(ActionEvent event) {
+
     }
 
-    public void onPausePressed(ActionEvent actionEvent) {
+    @FXML
+    void onResumePressed(ActionEvent event) {
+
     }
 
-    public void onResumePressed(ActionEvent actionEvent) {
+    @FXML
+    void onSelectedComboBoxEntitiesItem(ActionEvent event) {
+
     }
 
-    public void ReRunSimulation(ActionEvent actionEvent) {
+    @FXML
+    void onSelectedComboBoxPropertyItem(ActionEvent event) {
+
     }
 
-    public void onSelectedComboBoxEntitiesItem(ActionEvent actionEvent) {
+    @FXML
+    void onStopPressed(ActionEvent event) {
+
     }
 
-    public void onSelectedComboBoxPropertyItem(ActionEvent actionEvent) {
+    @FXML
+    void selectedItem(MouseEvent event) {
+
     }
 }

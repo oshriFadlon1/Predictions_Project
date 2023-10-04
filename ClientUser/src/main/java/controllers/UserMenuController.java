@@ -45,7 +45,7 @@ public class UserMenuController implements Initializable {
             throw new RuntimeException(e);
         }
         this.requestsController = loaderRequests.getController();
-
+        this.requestsController.setUserMenuController(this);
         FXMLLoader loaderNewEeecution = new FXMLLoader();
         mainFXML = getClass().getResource("/scenes/newExecution.fxml");
         loaderNewEeecution.setLocation(mainFXML);
@@ -69,5 +69,8 @@ public class UserMenuController implements Initializable {
             throw new RuntimeException(e);
         }
         this.resultsController = loaderResults.getController();
+    }
+
+    public void switchToExecuteTab(int requestId, String simulationName) {
     }
 }
