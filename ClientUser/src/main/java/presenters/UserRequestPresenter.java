@@ -6,14 +6,14 @@ public class UserRequestPresenter {
     private int requestedRuns;
     private String requestStatus;
     private int currentRuns;
-    private int simulationsRemaining;
+    private int simulationsFinished;
 
-    public UserRequestPresenter(String simulationName, int requestedRuns, String requestStatus, int currentRuns, int simulationsRemaining) {
+    public UserRequestPresenter(String simulationName, int requestedRuns, String requestStatus, int currentRuns, int simulationsFinished) {
         this.simulationName = simulationName;
         this.requestedRuns = requestedRuns;
         this.requestStatus = requestStatus;
         this.currentRuns = currentRuns;
-        this.simulationsRemaining = simulationsRemaining;
+        this.simulationsFinished = simulationsFinished;
         requestId++;
     }
 
@@ -38,6 +38,6 @@ public class UserRequestPresenter {
     }
 
     public int getFinishedRuns() {
-        return simulationsRemaining;
+        return simulationsFinished;
     }
 }

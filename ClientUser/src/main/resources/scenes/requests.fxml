@@ -87,10 +87,10 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <CheckBox fx:id="checkBoxSeconds" mnemonicParsing="false" text="Seconds" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="checkBoxSeconds" mnemonicParsing="false" onAction="#onCheckBoxSeconds" text="Seconds" GridPane.rowIndex="1" />
                               <TextField fx:id="textFieldSeconds" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <CheckBox fx:id="checkBoxTicks" mnemonicParsing="false" text="Ticks" GridPane.rowIndex="2" />
-                              <CheckBox fx:id="checkBoxFreeChoice" mnemonicParsing="false" text="Free choice" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="checkBoxTicks" mnemonicParsing="false" onAction="#onCheckBoxTicks" text="Ticks" GridPane.rowIndex="2" />
+                              <CheckBox fx:id="checkBoxFreeChoice" mnemonicParsing="false" onAction="#onCheckBoxFreeChoice" text="Free choice" GridPane.rowIndex="3" />
                               <TextField fx:id="textFieldTicks" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
@@ -114,7 +114,7 @@
                         <TableColumn fx:id="columnRequestedRuns" prefWidth="119.20002746582031" text="Requested Runs" />
                         <TableColumn fx:id="columnRequestStatus" minWidth="0.0" prefWidth="104.79998779296875" text="Request status" />
                         <TableColumn fx:id="columnSimulationsRunning" minWidth="7.0" prefWidth="134.40005493164062" text="Simulations running" />
-                        <TableColumn fx:id="columnSimulationsRemain" prefWidth="144.0" text="Simulations remain" />
+                        <TableColumn fx:id="columnSimulationsRemain" prefWidth="144.0" text="Simulations finished" />
                     </columns>
                   </TableView>
                </children>

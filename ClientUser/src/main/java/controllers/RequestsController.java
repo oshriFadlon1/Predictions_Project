@@ -59,7 +59,7 @@ public class RequestsController implements Initializable {
     private TableColumn<UserRequestPresenter, String> columnSimulationName;
 
     @FXML
-    private TableColumn<UserRequestPresenter, Integer> columnSimulationsRemain;
+    private TableColumn<UserRequestPresenter, Integer> columnSimulationsFinished;
 
     @FXML
     private TableColumn<UserRequestPresenter, Integer> columnSimulationsRunning;
@@ -87,7 +87,7 @@ public class RequestsController implements Initializable {
         this.columnRequestedRuns.setCellValueFactory(new PropertyValueFactory<>("requestedRuns"));
         this.columnRequestStatus.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
         this.columnSimulationName.setCellValueFactory(new PropertyValueFactory<>("simulationName"));
-        this.columnSimulationsRemain.setCellValueFactory(new PropertyValueFactory<>("simulationsRemaining"));
+        this.columnSimulationsFinished.setCellValueFactory(new PropertyValueFactory<>("simulationsFinished"));
         this.columnSimulationsRunning.setCellValueFactory(new PropertyValueFactory<>("currentRuns"));
         this.tableViewRequests.setItems(obsListRequests);
         this.client = Main.getClient();
@@ -115,7 +115,7 @@ public class RequestsController implements Initializable {
                             int requestIndxInListIfExists = checkIfRequestExist(requestId);
                             DtoSimulationsRequest currRequest = mapOfAllSimulations.get(requestId);
                             UserRequestPresenter requestInTable = new UserRequestPresenter(currRequest.getSimulationName(), currRequest.getRequestedRuns(), currRequest.getRequestStatus(),
-                            currRequest.getCurrentRuns(), (currRequest.getFinishedRuns() - currRequest.getCurrentRuns()));
+                            currRequest.getCurrentRuns(), currRequest.getFinishedRuns());
                             Platform.runLater(()->{
                                 if(requestIndxInListIfExists == -1){
                                 obsListRequests.add(requestInTable);
@@ -156,9 +156,6 @@ public class RequestsController implements Initializable {
         }
         else if(!this.checkBoxFreeChoice.isSelected() && !this.checkBoxSeconds.isSelected() && !this.checkBoxTicks.isSelected()){
             this.labelMsg.setText("Please choose a termination for the simulation");
-        }
-        else if((this.checkBoxFreeChoice.isSelected() && this.checkBoxTicks.isSelected()) || (this.checkBoxFreeChoice.isSelected() && this.checkBoxSeconds.isSelected())){
-            this.labelMsg.setText("Cannot choose a free choice and a ticks/seconds terminations simultaneously");
         }
         else if(this.checkBoxSeconds.isSelected() && (this.textFieldSeconds.getText().equals("") || !isNumber(this.textFieldSeconds.getText()))){
             this.labelMsg.setText("Please fill a valid value for seconds termination");
@@ -218,7 +215,6 @@ public class RequestsController implements Initializable {
                 this.labelMsg.setText("Cannot execute a simulation that has a pending/rejected status");
             }
             else{
-
                 this.userMenuController.switchToExecuteTab(this.currentSelectedRequestFromTable.getRequestId(), this.currentSelectedRequestFromTable.getSimulationName());
             }
         }
@@ -257,5 +253,42 @@ public class RequestsController implements Initializable {
 
     public void setUserMenuController(UserMenuController userMenuController) {
         this.userMenuController = userMenuController;
+    }
+    @FXML
+    private void onCheckBoxSeconds(){
+        if(this.checkBoxSeconds.isSelected()){
+            this.checkBoxTicks.setDisable(false);
+            this.checkBoxFreeChoice.setDisable(true);
+            this.textFieldTicks.setDisable(false);
+        }
+        else{
+            this.checkBoxFreeChoice.setDisable(false);
+        }
+    }
+    @FXML
+    private void onCheckBoxTicks(){
+        if(this.checkBoxTicks.isSelected()){
+            this.checkBoxFreeChoice.setDisable(true);
+            this.checkBoxSeconds.setDisable(false);
+            this.textFieldSeconds.setDisable(false);
+        }
+        else{
+            this.checkBoxFreeChoice.setDisable(false);
+        }
+    }
+    @FXML
+    private void onCheckBoxFreeChoice(){
+        if(this.checkBoxFreeChoice.isSelected()){
+            this.checkBoxTicks.setDisable(true);
+            this.checkBoxSeconds.setDisable(true);
+            this.textFieldTicks.setDisable(true);
+            this.textFieldSeconds.setDisable(true);
+        }
+        else{
+            this.checkBoxTicks.setDisable(false);
+            this.checkBoxSeconds.setDisable(false);
+            this.textFieldTicks.setDisable(false);
+            this.textFieldSeconds.setDisable(false);
+        }
     }
 }
