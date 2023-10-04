@@ -1,5 +1,6 @@
 package com.example.server.engine;
 
+import allocationManager.AllocationManager;
 import com.example.server.engineDtos.DtoResponseToController;
 import constans.Constans;
 import dtos.*;
@@ -29,6 +30,8 @@ public class MainEngine {
     private Map<String, WorldDefinition> worldDefinitionForSimulation;
     private SimulationExecutionerManager simulationExecutionerManager;
     private DtoBasicSimulationInfo dtoAllSimulationsStartingInfo; // get the basic info for reRun a given simulation
+    private AllocationManager allocationManager;
+
 
     public MainEngine() {
         // set basic number of threads to by 1
@@ -37,6 +40,7 @@ public class MainEngine {
         this.dtoAllSimulationsStartingInfo = null;
         this.xmlWorldDefinition = null;
         this.xmlParser = new XmlParser();
+        this.allocationManager = new AllocationManager();
     }
 
     public List<DtoResponsePreview> previewWorldsInfo(){

@@ -259,7 +259,7 @@ public class RequestsController implements Initializable {
         if(this.checkBoxSeconds.isSelected()){
             this.checkBoxTicks.setDisable(false);
             this.checkBoxFreeChoice.setDisable(true);
-            this.textFieldTicks.setDisable(false);
+            this.textFieldSeconds.setDisable(false);
         }
         else{
             this.checkBoxFreeChoice.setDisable(false);
@@ -270,7 +270,7 @@ public class RequestsController implements Initializable {
         if(this.checkBoxTicks.isSelected()){
             this.checkBoxFreeChoice.setDisable(true);
             this.checkBoxSeconds.setDisable(false);
-            this.textFieldSeconds.setDisable(false);
+            this.textFieldTicks.setDisable(false);
         }
         else{
             this.checkBoxFreeChoice.setDisable(false);

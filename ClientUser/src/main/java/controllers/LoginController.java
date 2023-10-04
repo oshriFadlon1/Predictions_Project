@@ -40,7 +40,7 @@ public class LoginController implements Initializable {
             return;
         }
 
-        Request loginRequest = new Request.Builder().url(Main.getBaseUrl() + "/user/login?username=" + this.textFIeldUserName.getText()).build();
+        Request loginRequest = new Request.Builder().url(Main.getBaseUrl() + "/user/login?userName=" + this.textFIeldUserName.getText()).build();
         Call call = this.client.newCall(loginRequest);
         try{
             final Response response = call.execute();
