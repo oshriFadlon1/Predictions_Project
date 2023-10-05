@@ -16,6 +16,7 @@ import okhttp3.*;
 import org.example.Main;
 import org.jetbrains.annotations.NotNull;
 import presenters.UserRequestPresenter;
+import userutilities.UserUtilities;
 
 import java.io.IOException;
 import java.net.URL;
@@ -157,13 +158,13 @@ public class RequestsController implements Initializable {
         else if(!this.checkBoxFreeChoice.isSelected() && !this.checkBoxSeconds.isSelected() && !this.checkBoxTicks.isSelected()){
             this.labelMsg.setText("Please choose a termination for the simulation");
         }
-        else if(this.checkBoxSeconds.isSelected() && (this.textFieldSeconds.getText().equals("") || !isNumber(this.textFieldSeconds.getText()))){
+        else if(this.checkBoxSeconds.isSelected() && (this.textFieldSeconds.getText().equals("") || !UserUtilities.isInteger(this.textFieldSeconds.getText()))){
             this.labelMsg.setText("Please fill a valid value for seconds termination");
         }
-        else if(this.checkBoxTicks.isSelected() && (this.textFieldTicks.getText().equals("") || !isNumber(this.textFieldTicks.getText()))){
+        else if(this.checkBoxTicks.isSelected() && (this.textFieldTicks.getText().equals("") || !UserUtilities.isInteger(this.textFieldSeconds.getText()))){
             this.labelMsg.setText("Please fill a valid value for ticks termination");
         }
-        else if(this.textFieldNumberOfRuns.getText().equals("") || !isNumber(this.textFieldNumberOfRuns.getText())){
+        else if(this.textFieldNumberOfRuns.getText().equals("") || !UserUtilities.isInteger(this.textFieldSeconds.getText())){
             this.labelMsg.setText("Please fill a valid value for number of runs");
         }
         else{
@@ -239,16 +240,6 @@ public class RequestsController implements Initializable {
             this.checkBoxTicks.setSelected(false);
             this.checkBoxFreeChoice.setSelected(false);
         });
-    }
-
-    private boolean isNumber(String text){
-        try{
-            Integer.parseInt(text);
-            return true;
-        }
-        catch(NumberFormatException e){
-            return false;
-        }
     }
 
     public void setUserMenuController(UserMenuController userMenuController) {

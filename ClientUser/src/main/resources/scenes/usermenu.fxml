@@ -10,7 +10,7 @@
    <content>
       <BorderPane prefHeight="796.0" prefWidth="1198.0">
          <center>
-            <TabPane prefHeight="670.0" prefWidth="1183.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="tabPaneManager" prefHeight="670.0" prefWidth="1183.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
                 <Tab fx:id="tabOfDetails" text="Details">
                   <content>
