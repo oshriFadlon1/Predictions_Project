@@ -39,6 +39,8 @@ public class NewExecutionController implements Initializable {
     private ObservableList<EnvironmentPresenter> obsListEnvironments;
     private ObservableList<EnvironmentPresenter> obsListEnvironmentsBefore;
     private Alert alertWindow;
+    private int currentRequest;
+
     @FXML
     private Button buttonClear;
 
@@ -116,6 +118,14 @@ public class NewExecutionController implements Initializable {
 
     @FXML
     private VBox vboxValues;
+
+    public int getCurrentRequest() {
+        return currentRequest;
+    }
+
+    public void setCurrentRequest(int currentRequest) {
+        this.currentRequest = currentRequest;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -317,9 +327,10 @@ public class NewExecutionController implements Initializable {
         String primaryEntityName = this.entity1Label.getText();
         String secondaryEntityName = this.entity2Label.getText();
         DtoUiToEngine dtoSimulationDetails = new DtoUiToEngine(simulationName, this.envToValue, population1, population2, primaryEntityName, secondaryEntityName);
+        // TODO Add popup with all the information
         String jsonPayload = this.gson.toJson(dtoSimulationDetails);
         RequestBody requestBody = RequestBody.create(jsonPayload, null);
-        Request startSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "/user/executeSimulation").put(requestBody).build();
+        Request startSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "/user/executeSimulation?requestId=" + this.currentRequest).put(requestBody).build();
         Call call = this.client.newCall(startSimulationRequest);
         call.enqueue(new Callback() {
             @Override

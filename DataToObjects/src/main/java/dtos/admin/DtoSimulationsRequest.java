@@ -1,16 +1,25 @@
 package dtos.admin;
 
+import dtos.requestInfo.DtoTerminationSimulationInfo;
+
 public class DtoSimulationsRequest {
     private int requestId;
     private String simulationName;
     private String userName;
     private int requestedRuns;
-    private String simulationTermination;
+    private DtoTerminationSimulationInfo simulationTermination;
     private String requestStatus;
     private int currentRuns;
     private int finishedRuns;
 
-    public DtoSimulationsRequest(int requestId, String simulationName, String userName, int requestedRuns, String simulationTermination, String requestStatus, int currentRuns, int finishedRuns) {
+    public DtoSimulationsRequest(int requestId,
+                                 String simulationName,
+                                 String userName,
+                                 int requestedRuns,
+                                 DtoTerminationSimulationInfo simulationTermination,
+                                 String requestStatus,
+                                 int currentRuns,
+                                 int finishedRuns) {
         this.requestId = requestId;
         this.simulationName = simulationName;
         this.userName = userName;
@@ -37,7 +46,7 @@ public class DtoSimulationsRequest {
         return requestedRuns;
     }
 
-    public String getSimulationTermination() {
+    public DtoTerminationSimulationInfo getSimulationTermination() {
         return simulationTermination;
     }
 

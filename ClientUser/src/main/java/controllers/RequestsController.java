@@ -161,10 +161,10 @@ public class RequestsController implements Initializable {
         else if(this.checkBoxSeconds.isSelected() && (this.textFieldSeconds.getText().equals("") || !UserUtilities.isInteger(this.textFieldSeconds.getText()))){
             this.labelMsg.setText("Please fill a valid value for seconds termination");
         }
-        else if(this.checkBoxTicks.isSelected() && (this.textFieldTicks.getText().equals("") || !UserUtilities.isInteger(this.textFieldSeconds.getText()))){
+        else if(this.checkBoxTicks.isSelected() && (this.textFieldTicks.getText().equals("") || !UserUtilities.isInteger(this.textFieldTicks.getText()))){
             this.labelMsg.setText("Please fill a valid value for ticks termination");
         }
-        else if(this.textFieldNumberOfRuns.getText().equals("") || !UserUtilities.isInteger(this.textFieldSeconds.getText())){
+        else if(this.textFieldNumberOfRuns.getText().equals("") || !UserUtilities.isInteger(this.textFieldNumberOfRuns.getText())){
             this.labelMsg.setText("Please fill a valid value for number of runs");
         }
         else{
@@ -195,7 +195,7 @@ public class RequestsController implements Initializable {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     Platform.runLater(()->{
-                        labelMsg.setText("Request was sent to admin succesfully");
+                        labelMsg.setText("Request was sent to admin successfully");
                         clearAllRequestComponents();
                     });
                 }
