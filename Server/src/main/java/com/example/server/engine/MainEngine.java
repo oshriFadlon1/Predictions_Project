@@ -6,7 +6,9 @@ import constans.Constans;
 import dtos.*;
 import dtos.admin.DtoFinalSimulationsDetails;
 import entity.EntityDefinition;
+import entity.EntityToPopulation;
 import environment.EnvironmentDefinition;
+import environment.EnvironmentInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import property.*;
@@ -15,11 +17,14 @@ import rule.Rule;
 import rule.action.IAction;
 import simulationmanager.SimulationExecutionerManager;
 import utility.Utilities;
+import world.GeneralInformation;
 import world.WorldDefinition;
 import exceptions.GeneralException;
+import world.WorldInstance;
 import xmlParser.XmlParser;
 import javax.xml.bind.JAXBException;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -170,17 +175,18 @@ public class MainEngine {
         return previewWorldsInfo();
     }
 
-    //func 3
-    public void executeSimulation(DtoUiToEngine envInputFromUser){
-//        WorldDefinition worldDefinition = this.worldDefinitionForSimulation.get(envInputFromUser.getNameOfSimulation());
-//        Map<String, Object> environmentsForEngine = envInputFromUser.getEnvironmentToValue();
-//        List<EntityToPopulation> entitiesToPopulations = createEntitiesToPopulationList(envInputFromUser);
-//        GeneralInformation infoForSimulation = new GeneralInformation(envInputFromUser.getPopulation1(), envInputFromUser.getPopulation2(),
-//                this.worldDefinitionForSimulation.getWorldSize(), LocalDateTime.now() , worldDefinition.getTermination(), entitiesToPopulations);
-//        Map<String, EnvironmentInstance> environmentInstancesMap = createAllEnvironmentInstances(environmentsForEngine);
-//        WorldInstance worldInstance = new WorldInstance(environmentInstancesMap, this.worldDefinitionForSimulation.getEntityDefinitions(), this.worldDefinitionForSimulation.getRules(), infoForSimulation);
-//        this.dtoAllSimulationsStartingInfo.addStartingSimulationDetails(envInputFromUser, GeneralInformation.getIdOfSimulation());
-//        this.simulationExecutionerManager.addCurrentSimulationToManager(worldInstance);
+    public void executeSimulation(DtoUiToEngine envInputFromUser, int requestId){
+        WorldDefinition worldDefinition = this.worldDefinitionForSimulation.get(envInputFromUser.getNameOfSimulation());
+        Map<String, Object> environmentsForEngine = envInputFromUser.getEnvironmentToValue();
+        List<EntityToPopulation> entitiesToPopulations = createEntitiesToPopulationList(envInputFromUser);
+        WorldDefinition worldDefForSimulation = this.worldDefinitionForSimulation.get(envInputFromUser.getNameOfSimulation());
+        GeneralInformation informationForSimulation = new GeneralInformation(worldDefForSimulation.getWorldSize(), LocalDateTime.now(),
+                allocationManager.getRequestIdToUserRequest().get(requestId).getTermination(), entitiesToPopulations, allocationManager.getRequestIdToUserRequest().get(requestId));
+        Map<String, EnvironmentInstance> environmentInstancesMap = createAllEnvironmentInstances(environmentsForEngine, envInputFromUser.getNameOfSimulation());
+        WorldInstance worldInstance = new WorldInstance(environmentInstancesMap, this.worldDefinitionForSimulation.get(envInputFromUser.getNameOfSimulation()).getEntityDefinitions(),
+                this.worldDefinitionForSimulation.get(envInputFromUser.getNameOfSimulation()).getRules(), informationForSimulation);
+        this.dtoAllSimulationsStartingInfo.addStartingSimulationDetails(envInputFromUser, GeneralInformation.getIdOfSimulation());
+        this.simulationExecutionerManager.addCurrentSimulationToManager(worldInstance);
     }
 
     public DtoSimulationDetails getSimulationById(int idOfCurrentSimulation) {
@@ -223,32 +229,32 @@ public class MainEngine {
         return null;
     }
 //TODO RETURN TO WORK
-//    private List<EntityToPopulation> createEntitiesToPopulationList(DtoUiToEngine inputFromUser) {
-//        List<EntityToPopulation> entitiesToPopulationList = new ArrayList<>();
-//        List<EntityDefinition> entityDefsList = this.worldDefinitionForSimulation.getEntityDefinitions();
-//        for(EntityDefinition currEntityDefinition: entityDefsList){
-//            EntityToPopulation newEntityPopulation;
-//            if(currEntityDefinition.getEntityName().equalsIgnoreCase(inputFromUser.getPrimaryEntityName())){
-//                newEntityPopulation = new EntityToPopulation(currEntityDefinition, inputFromUser.getPopulation1());
-//                entitiesToPopulationList.add(newEntityPopulation);
-//            }
-//            else{
-//                newEntityPopulation = new EntityToPopulation(currEntityDefinition, inputFromUser.getPopulation2());
-//                entitiesToPopulationList.add(newEntityPopulation);
-//            }
-//        }
-//        return entitiesToPopulationList;
-//    }
+    private List<EntityToPopulation> createEntitiesToPopulationList(DtoUiToEngine inputFromUser) {
+        List<EntityToPopulation> entitiesToPopulationList = new ArrayList<>();
+        List<EntityDefinition> entityDefsList = this.worldDefinitionForSimulation.get(inputFromUser.getNameOfSimulation()).getEntityDefinitions();
+        for(EntityDefinition currEntityDefinition: entityDefsList){
+            EntityToPopulation newEntityPopulation;
+            if(currEntityDefinition.getEntityName().equalsIgnoreCase(inputFromUser.getPrimaryEntityName())){
+                newEntityPopulation = new EntityToPopulation(currEntityDefinition, inputFromUser.getPopulation1(), inputFromUser.getPopulation1());
+                entitiesToPopulationList.add(newEntityPopulation);
+            }
+            else{
+                newEntityPopulation = new EntityToPopulation(currEntityDefinition, inputFromUser.getPopulation2(), inputFromUser.getPopulation2());
+                entitiesToPopulationList.add(newEntityPopulation);
+            }
+        }
+        return entitiesToPopulationList;
+    }
 //TODO RETURN TO WORK
-//    private Map<String, EnvironmentInstance> createAllEnvironmentInstances(Map<String, Object> environmentsForEngine) {
-//        Map<String, EnvironmentDefinition> allEnvDefs = this.worldDefinitionForSimulation.getAllEnvironments();
-//        Map<String, EnvironmentInstance> allEnvIns = new HashMap<>();
-//        for(String envName: environmentsForEngine.keySet()){
-//            EnvironmentDefinition currEnvDef = allEnvDefs.get(envName);
-//            allEnvIns.put(envName, new EnvironmentInstance(currEnvDef.createCloneOfEnvironmentDefinition(), environmentsForEngine.get(envName)));
-//        }
-//        return allEnvIns;
-//    }
+    private Map<String, EnvironmentInstance> createAllEnvironmentInstances(Map<String, Object> environmentsForEngine, String simulationName) {
+        Map<String, EnvironmentDefinition> allEnvDefs = this.worldDefinitionForSimulation.get(simulationName).getAllEnvironments();
+        Map<String, EnvironmentInstance> allEnvIns = new HashMap<>();
+        for(String envName: environmentsForEngine.keySet()){
+            EnvironmentDefinition currEnvDef = allEnvDefs.get(envName);
+            allEnvIns.put(envName, new EnvironmentInstance(currEnvDef.createCloneOfEnvironmentDefinition(), environmentsForEngine.get(envName)));
+        }
+        return allEnvIns;
+    }
 
     public DtoSimulationDetails fetchChosenWorld(int userSimulationChoice) {
         DtoSimulationDetails currentChosenSimulation = this.simulationExecutionerManager.getSimulationById(userSimulationChoice);
@@ -332,5 +338,17 @@ public class MainEngine {
 
     public List<DtoFinalSimulationsDetails> fetchAllEndedSimulations() {
         return this.simulationExecutionerManager.fetchAllEndedSimulations();
+    }
+
+    public AllocationManager getAllocationManager() {
+        return allocationManager;
+    }
+
+    public void setAllocationManager(AllocationManager allocationManager) {
+        this.allocationManager = allocationManager;
+    }
+
+    public boolean validateIfAdminConnected() {
+        return this.allocationManager.getIsAdminConnected().equals(true);
     }
 }

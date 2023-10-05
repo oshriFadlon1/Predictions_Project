@@ -3,7 +3,9 @@ package com.example.server.controllers;
 import com.example.server.engine.MainEngine;
 import com.example.server.engineDtos.DtoResponseToController;
 import dtos.*;
+import dtos.admin.DtoAllSimulationRequests;
 import dtos.admin.DtoFinalSimulationsDetails;
+import dtos.admin.DtoSimulationsRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,10 @@ public class AdminController {
 
     public AdminController(MainEngine mainEngine) {
         this.mainEngine = mainEngine;
+    }
+    @GetMapping("/login")
+    public boolean adminLogin(){
+        return mainEngine.validateIfAdminConnected();
     }
 
     @PostMapping("/upload")
@@ -71,5 +77,20 @@ public class AdminController {
     @GetMapping("/fetchAllEndedSimulations")
     public List<DtoFinalSimulationsDetails> fetchAllEndedSimulations(){
         return mainEngine.fetchAllEndedSimulations();
+    }
+
+    @GetMapping("/fetchAllRequests")
+    public DtoAllSimulationRequests fetchAllRequests(){
+        return this.mainEngine.getAllocationManager().fetchAllRequests();
+    }
+
+    @PutMapping("/rejectRequest")
+    public String rejectRequest(@RequestBody DtoSimulationsRequest dtoSimulationsRequest){
+        return this.mainEngine.getAllocationManager().rejectRequest(dtoSimulationsRequest);
+    }
+
+    @PutMapping("/approveRequest")
+    public String approveRequest(@RequestBody DtoSimulationsRequest dtoSimulationsRequest){
+        return this.mainEngine.getAllocationManager().approveRequest(dtoSimulationsRequest);
     }
 }

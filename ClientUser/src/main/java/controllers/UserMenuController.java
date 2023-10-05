@@ -81,6 +81,7 @@ public class UserMenuController implements Initializable {
         DtoResponsePreview chosenWorld = this.detailsController.fetchWorldPreviewBySimulationName(simulationName);
         this.newExecutionController.setWorldPreview(chosenWorld);
         this.newExecutionController.initializeRandomEnvironmentValues();
+        this.newExecutionController.setCurrentRequest(requestId);
         this.tabPaneManager.getSelectionModel().select(tabOfNewExecution);
     }
 

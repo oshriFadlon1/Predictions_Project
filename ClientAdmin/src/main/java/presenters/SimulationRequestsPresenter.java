@@ -1,16 +1,18 @@
 package presenters;
 
+import dtos.requestInfo.DtoTerminationSimulationInfo;
+
 public class SimulationRequestsPresenter {
     private int requestId;
     private String simulationName;
     private String userName;
     private int requestedRuns;
-    private String simulationTermination;
+    private DtoTerminationSimulationInfo simulationTermination;
     private String requestStatus;
     private int currentRuns;
     private int finishedRuns;
 
-    public SimulationRequestsPresenter(int requestId, String simulationName, String userName, int requestedRuns, String simulationTermination, String requestStatus) {
+    public SimulationRequestsPresenter(int requestId, String simulationName, String userName, int requestedRuns, DtoTerminationSimulationInfo simulationTermination, String requestStatus) {
         this.requestId = requestId;
         this.simulationName = simulationName;
         this.userName = userName;
@@ -35,7 +37,7 @@ public class SimulationRequestsPresenter {
         return requestedRuns;
     }
 
-    public String getSimulationTermination() {
+    public DtoTerminationSimulationInfo getSimulationTermination() {
         return simulationTermination;
     }
 
