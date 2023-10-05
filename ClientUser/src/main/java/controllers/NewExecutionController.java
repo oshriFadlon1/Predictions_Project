@@ -38,6 +38,7 @@ public class NewExecutionController implements Initializable {
     private ObservableList<EntityPresenter> obsListEntities;
     private ObservableList<EnvironmentPresenter> obsListEnvironments;
     private ObservableList<EnvironmentPresenter> obsListEnvironmentsBefore;
+    private Alert alertWindow;
     @FXML
     private Button buttonClear;
 
@@ -328,6 +329,18 @@ public class NewExecutionController implements Initializable {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                alertWindow = new Alert(Alert.AlertType.INFORMATION);
+                StringBuilder finalDetailsToShow = new StringBuilder(String.format("Entities\n{0}: {1}\n{2}: {3}", entity1Label.getText(), textFieldEntity1.getText(),
+                        !entity2Label.getText().equalsIgnoreCase("") ? entity2Label.getText() : "", !textFieldEntity2.getText().equalsIgnoreCase("")
+                                ? textFieldEntity2.getText() : ""));
+                finalDetailsToShow.append("Environments: \n");
+                for(String envName: envToValue.keySet()){
+                    finalDetailsToShow.append(envName);
+                    finalDetailsToShow.append(": ").append(envToValue.get(envName));
+                    finalDetailsToShow.append("\n");
+                }
+                alertWindow.setContentText(finalDetailsToShow.toString());
+                alertWindow.show();
                 userMenuController.switchToResultsTab();
             }
         });
