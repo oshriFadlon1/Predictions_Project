@@ -20,6 +20,10 @@ public class AdminController {
     public AdminController(MainEngine mainEngine) {
         this.mainEngine = mainEngine;
     }
+    @GetMapping("/login")
+    public boolean adminLogin(){
+        return mainEngine.validateIfAdminConnected();
+    }
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
