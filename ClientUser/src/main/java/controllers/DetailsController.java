@@ -1,5 +1,6 @@
 package controllers;
 
+import dtos.DtoResponsePreview;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -14,5 +15,8 @@ public class DetailsController implements Initializable {
     @FXML
     private void SelectedItem(){
 
+    }
+
+    public DtoResponsePreview fetchWorldPreviewBySimulationName(String simulationName) {
     }
 }

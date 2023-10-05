@@ -1,10 +1,12 @@
 package controllers;
 
+import dtos.DtoResponsePreview;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +17,8 @@ public class UserMenuController implements Initializable {
     private RequestsController requestsController;
     private ResultsController resultsController;
     private NewExecutionController newExecutionController;
+    @FXML
+    private TabPane tabPaneManager;
     @FXML
     private Tab tabOfDetails;
     @FXML private Tab tabOfNewExecution;
@@ -57,6 +61,7 @@ public class UserMenuController implements Initializable {
             throw new RuntimeException(e);
         }
         this.newExecutionController = loaderNewEeecution.getController();
+        this.newExecutionController.setUserMenuController(this);
 
         FXMLLoader loaderResults = new FXMLLoader();
         mainFXML = getClass().getResource("/scenes/results.fxml");
@@ -72,5 +77,13 @@ public class UserMenuController implements Initializable {
     }
 
     public void switchToExecuteTab(int requestId, String simulationName) {
+        //TODO implement fetchWorldPreviewBySimulationName
+        DtoResponsePreview chosenWorld = this.detailsController.fetchWorldPreviewBySimulationName(simulationName);
+        this.newExecutionController.setWorldPreview(chosenWorld);
+        this.newExecutionController.initializeRandomEnvironmentValues();
+        this.tabPaneManager.getSelectionModel().select(tabOfNewExecution);
+    }
+
+    public void switchToResultsTab() {
     }
 }
