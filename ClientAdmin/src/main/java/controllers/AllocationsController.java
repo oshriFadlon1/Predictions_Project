@@ -76,7 +76,7 @@ public class AllocationsController implements Initializable {
 
     private void fetchRequests(){
         while(true){
-            Request requestsFetch = new Request.Builder().url(Main.getBaseUrl() + "/admin/fetchRequests").build();
+            Request requestsFetch = new Request.Builder().url(Main.getBaseUrl() + "/admin/fetchAllRequests").build();
             Call call = this.client.newCall(requestsFetch);
             call.enqueue(new Callback() {
                 @Override

@@ -268,9 +268,9 @@ public class SimulationExecutionerManager {
             }
 
             dtoFinalSimulationsDetails = new DtoFinalSimulationsDetails(GeneralInformation.getIdOfSimulation(),
-                    generalInformation.getUserName(),
-                    generalInformation.getSimulationName(),
-                    generalInformation.getRequestNumber(),
+                    generalInformation.getRequestDetails().getUserName(),
+                    generalInformation.getRequestDetails().getSimulationName(),
+                    generalInformation.getRequestDetails().getRequestId(),
                     mapEntityToStartPopulation,
                     mapEntityToEndPopulation,
                     mapEnvToValue);

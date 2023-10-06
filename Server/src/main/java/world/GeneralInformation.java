@@ -1,5 +1,6 @@
 package world;
 
+import allocationManager.UserRequest;
 import entity.EntityToPopulation;
 import pointCoord.PointCoord;
 import termination.Termination;
@@ -15,26 +16,20 @@ public class GeneralInformation {
     private boolean isSimulationDone = false;
     private boolean isSimulationPaused = false;
     private List<EntityToPopulation> entitiesToPopulations;
-    private String userName;
-    private String simulationName;
-    private int requestNumber;
+    private UserRequest requestDetails;
 
     public GeneralInformation(PointCoord worldSize,
                               LocalDateTime startOfSimulationDate,
                               Termination termination,
                               List<EntityToPopulation> entitiesToPopulations,
-                              String userName,
-                              String simulationName,
-                              int requestNumber) {
+                              UserRequest requestDetails) {
         this.isSimulationPaused = false;
         this.worldSize = worldSize;
         this.startOfSimulationDate = startOfSimulationDate;
         this.termination = termination;
         this.isSimulationDone = false;
         this.entitiesToPopulations = entitiesToPopulations;
-        this.userName = userName;
-        this.simulationName = simulationName;
-        this.requestNumber = requestNumber;
+        this.requestDetails = requestDetails;
         idOfSimulation++;
     }
 
@@ -94,28 +89,12 @@ public class GeneralInformation {
         isSimulationPaused = simulationPaused;
     }
 
-    public String getUserName() {
-        return userName;
+    public UserRequest getRequestDetails() {
+        return requestDetails;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getSimulationName() {
-        return simulationName;
-    }
-
-    public void setSimulationName(String simulationName) {
-        this.simulationName = simulationName;
-    }
-
-    public int getRequestNumber() {
-        return requestNumber;
-    }
-
-    public void setRequestNumber(int requestNumber) {
-        this.requestNumber = requestNumber;
+    public void setRequestDetails(UserRequest requestDetails) {
+        this.requestDetails = requestDetails;
     }
 
     @Override
@@ -127,9 +106,7 @@ public class GeneralInformation {
                 ", isSimulationDone=" + isSimulationDone +
                 ", isSimulationPaused=" + isSimulationPaused +
                 ", entitiesToPopulations=" + entitiesToPopulations +
-                ", userName='" + userName + '\'' +
-                ", simulationName='" + simulationName + '\'' +
-                ", requestNumber=" + requestNumber +
+                ", requestDetails=" + requestDetails +
                 '}';
     }
 }

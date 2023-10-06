@@ -254,6 +254,7 @@ public class AdminManagementController implements Initializable {
             return;
         }
 
+        // TODO impliment func
         DtoResponsePreview dtoResponsePreview = findTheDtoPreview(selectedItem);
         try {
             // case choose general (termination and grid)

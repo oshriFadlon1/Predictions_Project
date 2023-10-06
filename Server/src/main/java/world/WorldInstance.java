@@ -48,8 +48,10 @@ public class WorldInstance implements Serializable, Runnable {
     private List<DtoCountTickPopulation> entityPopulationInEachTick;
 
 
-    public WorldInstance(Map<String, EnvironmentInstance> allEnvironments, List<EntityDefinition> entitiesDefinition,
-                         List<Rule> allRules, GeneralInformation informationOfWorld) {
+    public WorldInstance(Map<String, EnvironmentInstance> allEnvironments,
+                         List<EntityDefinition> entitiesDefinition,
+                         List<Rule> allRules,
+                         GeneralInformation informationOfWorld) {
         this.allEnvironments = allEnvironments;
         this.allEntities = new HashMap<>();
         entityDefinitions = entitiesDefinition;
@@ -161,14 +163,10 @@ public class WorldInstance implements Serializable, Runnable {
 
         //int currentTickCount = 0;
         Random random = new Random();
-//        long timeStarted = System.currentTimeMillis();
-//        long currentTime = System.currentTimeMillis();
         List<String> entityNamesForChecking = new ArrayList<>();
         this.startTheSimulation = System.currentTimeMillis();
 
         while (currentTermination.isTicksActive(this.currentTick) && currentTermination.isSecondsActive(getCurrentTimePassed()) && !isStopped){
- //           System.out.println("thread number "+Thread.currentThread() +"current tick : "+this.currentTick + "general info: " + this.informationOfWorld );
-
             if (isPaused){
                 synchronized (this.lockForSyncPause){
                     while (isPaused){
@@ -268,11 +266,14 @@ public class WorldInstance implements Serializable, Runnable {
             this.entitiesToKill.clear();
             this.currentTick++;
             savePopulationInCurrentTick(this.informationOfWorld.getEntitiesToPopulations(),this.currentTick);
+            // TODO Add attribute sleep ( check and exe if set ).
         }
 
         this.timeFinished = System.currentTimeMillis();
         this.informationOfWorld.setSimulationDone(true);
         this.isStopped = true;
+        // TODO set in informationOfWorld currentRuns - 1
+        // TODO set in informationOfWorld finishedRuns + 1
     }
 
     private void savePopulationInCurrentTick(List<EntityToPopulation> entitiesToPopulations, int currentTick) {

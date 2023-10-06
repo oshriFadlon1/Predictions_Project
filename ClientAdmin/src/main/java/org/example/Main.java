@@ -5,6 +5,7 @@ import dtos.DtoActionResponse;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -24,21 +25,23 @@ public class Main extends Application {
     private static String BASE_URL = "http://localhost:8080";//Server";
 
     public static void main(String[] args) {
-//        Request loginRequest = new Request.Builder().url(BASE_URL + "/admin/login").build();
-//        Call call = CLIENT.newCall(loginRequest);
-//        try{
-//            final Response response = call.execute();
-//            if(response.body().string().equalsIgnoreCase("false")){
-//                launch(args);
-//            }
-//            else{
-//                return;
-//            }
-//
-//        }
-//        catch(IOException e){
-//            return;
-//        }
+        Request loginRequest = new Request.Builder().url(BASE_URL + "/admin/login").build();
+        Call call = CLIENT.newCall(loginRequest);
+        try{
+            final Response response = call.execute();
+            if(response.body().string().equalsIgnoreCase("false")){
+                launch(args);
+            }
+            else{
+                Alert alertWindow = new Alert(Alert.AlertType.ERROR);
+                alertWindow.setContentText("An admin is already logged in");
+                return;
+            }
+        }
+        catch(IOException e){
+            return;
+        }
+        //launch(args);
     }
 
     public static /*synchronized*/ OkHttpClient getCLIENT() {
