@@ -167,7 +167,7 @@ public class NewExecutionController implements Initializable {
                 this.labelErrorEntity1.setText(this.entity1Label.getText() + " population: " + this.population1);
                 EntityPresenter entityPresenter = new EntityPresenter(this.entity1Label.getText(), this.population1);
                 addEntityToObserverList(entityPresenter);
-                this.population1 = entityPresenter.getPopulation();
+                this.population1 = entityPresenter.getStartPopulation();
                 this.tableEntities.setVisible(true);
             }
         }
@@ -211,7 +211,7 @@ public class NewExecutionController implements Initializable {
                 this.labelErrorEntity2.setText(this.entity2Label.getText() + " population: " + this.population2);
                 EntityPresenter entityPresenter = new EntityPresenter(this.entity2Label.getText(), this.population2);
                 addEntityToObserverList(entityPresenter);
-                this.population2 = entityPresenter.getPopulation();
+                this.population2 = entityPresenter.getStartPopulation();
                 this.tableEntities.setVisible(true);
             }
         }
