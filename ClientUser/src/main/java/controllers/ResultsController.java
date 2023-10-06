@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,11 +8,21 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import presenters.EntityPresenter;
+import presenters.HistogramPresenter;
+import presenters.SimulationPresenter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ResultsController implements Initializable {
+    private UserMenuController userMenuController;
+    private SimulationPresenter currSimulationPresenter;
+    private ObservableList<EntityPresenter> obsListEntities;
+    private ObservableList<SimulationPresenter> obsListSimulations;
+    private ObservableList<String> obsListEntityNames;
+    private ObservableList<String> obsListPropertyNames;
+    private ObservableList<HistogramPresenter> obsListHistogram;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -68,13 +79,13 @@ public class ResultsController implements Initializable {
     private Label labelSimulationStatus;
 
     @FXML
-    private ListView<?> listViewSimulations;
+    private ListView<SimulationPresenter> listViewSimulations;
 
     @FXML
-    private TableColumn<?, ?> tableColumnEntity;
+    private TableColumn<EntityPresenter, String> tableColumnEntity;
 
     @FXML
-    private TableColumn<?, ?> tableColumnPopulation;
+    private TableColumn<EntityPresenter, Integer> tableColumnPopulation;
 
     @FXML
     private TableView<?> tableViewEntities;

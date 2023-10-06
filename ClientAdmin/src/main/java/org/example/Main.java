@@ -29,13 +29,16 @@ public class Main extends Application {
 //        try{
 //            final Response response = call.execute();
 //            if(response.body().string().equalsIgnoreCase("false")){
+//                launch(args);
+//            }
+//            else{
 //                return;
 //            }
+//
 //        }
 //        catch(IOException e){
 //            return;
 //        }
-        launch(args);
     }
 
     public static /*synchronized*/ OkHttpClient getCLIENT() {
