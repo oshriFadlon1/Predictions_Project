@@ -54,6 +54,7 @@ public class SimulationExecutionerManager {
 
 
     public DtoSimulationDetails getSimulationById(int userSimulationChoice) {
+        //TODO finish implementing the return value from this function. environment map and start population of entity 1 and 2
         synchronized (this){
             WorldInstance chosenSimulation = this.idToSimulationMap.get(userSimulationChoice);
             int numberOfTicks = chosenSimulation.getCurrentTick();
@@ -74,7 +75,7 @@ public class SimulationExecutionerManager {
                         numberOfSeconds,
                         chosenSimulation.getInformationOfWorld().isSimulationDone(),
                         chosenSimulation.isPaused(),
-                        userSimulationChoice, envToValueMap);
+                        userSimulationChoice);
             }
 
             String entity1Name = chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getCurrEntityDef().getEntityName();
@@ -87,7 +88,7 @@ public class SimulationExecutionerManager {
                     numberOfSeconds,
                     chosenSimulation.getInformationOfWorld().isSimulationDone(),
                     chosenSimulation.isPaused(),
-                    userSimulationChoice, envToValueMap);
+                    userSimulationChoice);
         }
     }
 
