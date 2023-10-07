@@ -1,8 +1,12 @@
 package dtos;
 
+import java.util.Map;
+
 public class DtoSimulationDetails {
     private int entity1Population;
     private int entity2Population;
+    private int entity1StartPopulation;
+    private int entity2StartPopulation;
     private String entity1Name;
     private String entity2Name;
     private int simulationTick;
@@ -10,6 +14,7 @@ public class DtoSimulationDetails {
     private boolean isSimulationFinished;
     private boolean isSimulationPaused;
     private int simulationId;
+    private Map<String, Object> envToValueMap;
 
     public DtoSimulationDetails(int entity1Population, int entity2Population, String entity1Name, String entity2Name, int simulationTick, long simulationTimePassed, boolean isSimulationFinished, boolean isSimulationPaused, int simulationId) {
         this.entity1Population = entity1Population;
@@ -21,6 +26,10 @@ public class DtoSimulationDetails {
         this.isSimulationFinished = isSimulationFinished;
         this.isSimulationPaused = isSimulationPaused;
         this.simulationId = simulationId;
+    }
+
+    public Map<String, Object> getEnvToValueMap() {
+        return envToValueMap;
     }
 
     public int getSimulationId() {
@@ -59,5 +68,13 @@ public class DtoSimulationDetails {
 
     public boolean isSimulationPaused() {
         return isSimulationPaused;
+    }
+
+    public int getEntity1StartPopulation() {
+        return entity1StartPopulation;
+    }
+
+    public int getEntity2StartPopulation() {
+        return entity2StartPopulation;
     }
 }
