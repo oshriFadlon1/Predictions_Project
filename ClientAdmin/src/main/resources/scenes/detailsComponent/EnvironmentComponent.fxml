@@ -3,7 +3,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="backGroundStyle" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.controller.EnvironmentComponentController">
+<AnchorPane id="backGroundStyle" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adminComponent.controller.EnvironmentComponentController">
    <children>
       <Label id="terminationInfo" fx:id="envType" layoutX="5.0" layoutY="41.0" text="Type :" />
       <Label id="terminationInfo" fx:id="envRange" layoutX="6.0" layoutY="79.0" text="Range :" />

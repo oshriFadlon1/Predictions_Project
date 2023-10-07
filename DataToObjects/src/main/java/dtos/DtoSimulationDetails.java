@@ -16,9 +16,22 @@ public class DtoSimulationDetails {
     private int simulationId;
     private Map<String, Object> envToValueMap;
 
-    public DtoSimulationDetails(int entity1Population, int entity2Population, String entity1Name, String entity2Name, int simulationTick, long simulationTimePassed, boolean isSimulationFinished, boolean isSimulationPaused, int simulationId) {
+    public DtoSimulationDetails(int entity1Population,
+                                int entity2Population,
+                                int entity1StartPopulation,
+                                int entity2StartPopulation,
+                                String entity1Name,
+                                String entity2Name,
+                                int simulationTick,
+                                long simulationTimePassed,
+                                boolean isSimulationFinished,
+                                boolean isSimulationPaused,
+                                int simulationId,
+                                Map<String, Object> envToValueMap) {
         this.entity1Population = entity1Population;
         this.entity2Population = entity2Population;
+        this.entity1StartPopulation = entity1StartPopulation;
+        this.entity2StartPopulation = entity2StartPopulation;
         this.entity1Name = entity1Name;
         this.entity2Name = entity2Name;
         this.simulationTick = simulationTick;
@@ -26,6 +39,7 @@ public class DtoSimulationDetails {
         this.isSimulationFinished = isSimulationFinished;
         this.isSimulationPaused = isSimulationPaused;
         this.simulationId = simulationId;
+        this.envToValueMap = envToValueMap;
     }
 
     public Map<String, Object> getEnvToValueMap() {

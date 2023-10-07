@@ -1,4 +1,4 @@
-package component.controller;
+package adminComponent.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package component.controller;
+package adminComponent.controller;
 
 import dtos.DtoEnvironmentDetails;
 import javafx.fxml.FXML;

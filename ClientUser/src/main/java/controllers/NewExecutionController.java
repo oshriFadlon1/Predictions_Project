@@ -274,7 +274,7 @@ public class NewExecutionController implements Initializable {
 
     private void SaveEnvPropValueSuccessfully(String valueToCheck, String envName) {
         labelError.setVisible(true);
-        labelError.setText("Value " + valueToCheck + " was set to environment " + envName + " succesfully");
+        labelError.setText("Value " + valueToCheck + " was set to environment " + envName + " successfully");
         this.labelValue.setText("");
         textFieldValue.setText("");
         EnvironmentPresenter envPresenter = new EnvironmentPresenter(envName, valueToCheck);

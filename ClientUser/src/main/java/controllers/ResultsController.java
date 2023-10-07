@@ -2,9 +2,11 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dtos.DtoAllSimulationDetails;
 import dtos.DtoCountTickPopulation;
 import dtos.DtoHistogramInfo;
 import dtos.DtoSimulationDetails;
+import enums.SimulationState;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,7 @@ import presenters.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ResultsController implements Initializable {
@@ -39,6 +42,7 @@ public class ResultsController implements Initializable {
     private ObservableList<String> obsListPropertyNames;
     private ObservableList<HistogramPresenter> obsListHistogram;
     private ObservableList<EnvironmentPresenter> obsListEnvironments;
+    private Thread fetchSimulationsByUserNameThread;
     @FXML
     private Label labelAvgPropertyValue;
 
@@ -145,9 +149,64 @@ public class ResultsController implements Initializable {
         this.buttonStop.setDisable(true);
         this.client = Main.getClient();
         this.gson = new Gson();
+        this.fetchSimulationsByUserNameThread = new Thread(this::fetchSimulationsByUserName);
+        this.fetchSimulationsByUserNameThread.start();
     }
 
+    private void fetchSimulationsByUserName(){
+        while(true){
+            Request fetchSimulationsRequest = new Request.Builder().url(Main.getBaseUrl() + "user/fetchSimulationsByUserName?userName=" + Main.getUserName()).build();
+            Call call = this.client.newCall(fetchSimulationsRequest);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
 
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    DtoAllSimulationDetails allCurrentSimulations = gson.fromJson(response.body().string(), DtoAllSimulationDetails.class);
+                    Map<Integer, SimulationState> simulationToIsRunningMap = allCurrentSimulations.getMapOfAllSimulations();
+                    for(int currId: simulationToIsRunningMap.keySet()) {
+                        SimulationPresenter simulationToCheck = checkIfSimulationExists(currId);
+                        if (simulationToCheck == null) {
+                            SimulationPresenter currSimulationToAdd = new SimulationPresenter(currId, simulationToIsRunningMap.get(currId).toString());
+                            obsListSimulations.add(currSimulationToAdd);
+                        } else {
+                            if (simulationToIsRunningMap.get(currId).toString().equalsIgnoreCase(SimulationState.FINISHED.toString())) {
+                                simulationToCheck.setSimulationState(SimulationState.FINISHED.toString());
+                            }
+                            else if (simulationToIsRunningMap.get(currId).toString().equalsIgnoreCase(SimulationState.WAITING.toString())) {
+                                simulationToCheck.setSimulationState(SimulationState.WAITING.toString());
+                            }
+                            else if (simulationToIsRunningMap.get(currId).toString().equalsIgnoreCase(SimulationState.RUNNING.toString())) {
+                                simulationToCheck.setSimulationState(SimulationState.RUNNING.toString());
+                            }
+                            obsListSimulations.set(currId - 1, simulationToCheck);
+                        }
+                    }
+                    List<DtoSimulationDetails> allSimulationsList = gson.fromJson(response.body().string(), new TypeToken<List<DtoSimulationDetails>>() {}.getType());
+
+                }
+            });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public SimulationPresenter checkIfSimulationExists(int simulationId){
+        for(SimulationPresenter currSimulation: this.obsListSimulations){
+            if(simulationId == currSimulation.getSimulationId()){
+                return currSimulation;
+            }
+        }
+        return null;
+    }
+
+// TODO rerun
     @FXML
     void ReRunSimulation(ActionEvent event) {
 
@@ -156,7 +215,8 @@ public class ResultsController implements Initializable {
     @FXML
     void onPausePressed(ActionEvent event) {
         if(this.currSimulationPresenter != null) {
-            Request pauseSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "user/pauseSimulation?simulationId=" + this.currSimulationPresenter.getSimulationId()).build();
+            RequestBody requestBody = RequestBody.create("", null);
+            Request pauseSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "user/pauseSimulation?simulationId=" + this.currSimulationPresenter.getSimulationId()).put(requestBody).build();
             Call call = this.client.newCall(pauseSimulationRequest);
             call.enqueue(new Callback() {
                 @Override
@@ -178,7 +238,8 @@ public class ResultsController implements Initializable {
     @FXML
     void onResumePressed(ActionEvent event) {
         if(this.currSimulationPresenter != null){
-            Request resumeSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "user/resumeSimulation?simulationId=" + this.currSimulationPresenter.getSimulationId()).build();
+            RequestBody requestBody = RequestBody.create("", null);
+            Request resumeSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "user/resumeSimulation?simulationId=" + this.currSimulationPresenter.getSimulationId()).put((requestBody)).build();
             Call call = this.client.newCall(resumeSimulationRequest);
             call.enqueue(new Callback() {
                 @Override
@@ -288,7 +349,8 @@ public class ResultsController implements Initializable {
     @FXML
     void onStopPressed(ActionEvent event) {
         if(this.currSimulationPresenter != null) {
-            Request stopSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "user/stopSimulation?simulationId=" + this.currSimulationPresenter.getSimulationId()).build();
+            RequestBody requestBody = RequestBody.create("", null);
+            Request stopSimulationRequest = new Request.Builder().url(Main.getBaseUrl() + "user/stopSimulation?simulationId=" + this.currSimulationPresenter.getSimulationId()).put(requestBody).build();
             Call call = this.client.newCall(stopSimulationRequest);
             call.enqueue(new Callback() {
                 @Override

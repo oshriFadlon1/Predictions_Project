@@ -1,11 +1,12 @@
 package controllers;
 
 import com.google.gson.reflect.TypeToken;
-import component.controller.EntityComponentController;
-import component.controller.EnvironmentComponentController;
-import component.controller.GridComponentController;
-import component.controller.RuleComponentController;
+import adminComponent.controller.EntityComponentController;
+import adminComponent.controller.EnvironmentComponentController;
+import adminComponent.controller.GridComponentController;
+import adminComponent.controller.RuleComponentController;
 import dtos.*;
+import dtos.detailsPreview.DetailsPreviewinfo.DetailPreviewSelected;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +24,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
-import presenters.SimulationPresenter;
 
 public class AdminManagementController implements Initializable {
     private Gson gson;
@@ -69,6 +71,7 @@ public class AdminManagementController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
         this.queueDataFetchingThread = new Thread(this::fetchQueueData);
         this.queueDataFetchingThread.start();
         this.gson = new Gson();
@@ -103,6 +106,7 @@ public class AdminManagementController implements Initializable {
 
             // Handle the response here
             String responseBody = response.body().string();
+            labelLoadStatus.setText(responseBody);
             System.out.println("Response: " + responseBody);
             fetchPreviewSimulations();
         } catch (IOException e) {
@@ -189,13 +193,14 @@ public class AdminManagementController implements Initializable {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 worldPreview = gson.fromJson(response.body().string(), new TypeToken<List<DtoResponsePreview>>() {
                 }.getType());
-                setTreeViewFromWorld();
+                Platform.runLater(() -> setTreeViewFromWorld());
             }
         });
     }
 
     private void setTreeViewFromWorld() {
         TreeItem<String> rootItem = treeViewSimulation.getRoot();
+        rootItem.getChildren().clear();
 
         for (DtoResponsePreview dtoResponsePreview: this.worldPreview) {
             TreeItem<String> childName = new TreeItem<>(dtoResponsePreview.getSimulationName());
@@ -254,39 +259,109 @@ public class AdminManagementController implements Initializable {
             return;
         }
 
-        // TODO impliment func
-        DtoResponsePreview dtoResponsePreview = findTheDtoPreview(selectedItem);
+        DetailPreviewSelected detailPreviewSelected = findTheDtoPreview(selectedItem);
         try {
-            // case choose general (termination and grid)
-            if (selectedItem.getValue().equalsIgnoreCase(generalInfo)){
-                loadAndAddFXML("/ui/javaFx/scenes/sceneDetails/detailsComponents/TerminationComponent.fxml", generalInfo);
-                gridComponentController.updateLabelTerm(dtoResponsePreview.getRow(), dtoResponsePreview.getCol());
+            // case choose general (termination and grid) selectedItem.getValue().equalsIgnoreCase(generalInfo)
+            if (detailPreviewSelected.getCountLevels() == 3){
+                loadAndAddFXML("/scenes/detailsComponent/GridComponent.fxml", generalInfo);
+                gridComponentController.updateLabelTerm(detailPreviewSelected.getSelectedDtoResponsePreview().getRow(), detailPreviewSelected.getSelectedDtoResponsePreview().getCol());
                 return;
             }
 
-            // case choose environment property.
-            if (selectedItem.getParent().getValue().equalsIgnoreCase(environment)){
-                loadAndAddFXML("/ui/javaFx/scenes/sceneDetails/detailsComponents/EnvironmentComponent.fxml", environment);
-                environmentComponentController.updateLabelEnv(dtoResponsePreview.getDtoEnvironments().get(selectedItem.getValue()));
+            // case choose environment property. selectedItem.getParent().getValue().equalsIgnoreCase(environment)
+            if (detailPreviewSelected.getCountLevels() == 4){
+                loadAndAddFXML("/scenes/detailsComponent/EnvironmentComponent.fxml", environment);
+                environmentComponentController.updateLabelEnv(detailPreviewSelected.getSelectedDtoResponsePreview().getDtoEnvironments().get(selectedItem.getValue()));
                 return;
             }
 
-//            // case choose entity property.
-//            if (selectedItem.getParent().getParent().getValue().equalsIgnoreCase(entities)){
-//                loadAndAddFXML("/ui/javaFx/scenes/sceneDetails/detailsComponents/EntityComponent.fxml", "Entity");
-//                entityComponentController.updateLabelEnt(getSelectedPropertyEntity(selectedItem));
-//                return;
-//            }
-//            // case choose rule action
-//            if (selectedItem.getParent().getParent().getValue().equalsIgnoreCase(rules)){
-//                loadAndAddFXML("/ui/javaFx/scenes/sceneDetails/detailsComponents/RuleComponent.fxml", "Rule");
-//                this.ruleComponentController.updateLabelRule(getSelectedAction(selectedItem));
-//            }
+            if (detailPreviewSelected.getCountLevels() == 5){
+
+                if (isEntityPropertySelected(selectedItem, detailPreviewSelected)){
+                    //TODO find the entity and fine the property the user choice.
+                    // case choose entity property. selectedItem.getParent().getParent().getValue().equalsIgnoreCase(entities)
+                    loadAndAddFXML("/scenes/detailsComponent/EntityComponent.fxml", "Entity");
+                    this.entityComponentController.updateLabelEnt(getSelectedPropertyEntity(selectedItem, detailPreviewSelected));
+                    return;
+                }
+                else {
+                    // case choose rule action
+                    //TODO find the rule and fine the action the user choice. selectedItem.getParent().getParent().getValue().equalsIgnoreCase(rules)
+                    loadAndAddFXML("/scenes/detailsComponent/RuleComponent.fxml", "Rule");
+                    this.ruleComponentController.updateLabelRule(getSelectedAction(selectedItem, detailPreviewSelected));
+                }
+
+            }
         } catch (Exception ignore){}
     }
 
-    private DtoResponsePreview findTheDtoPreview(TreeItem<String> selectedItem) {
-        return null;
+    private DtoActionResponse getSelectedAction(TreeItem<String> selectedItem, DetailPreviewSelected detailPreviewSelected) {
+        String ruleName = selectedItem.getParent().getValue();
+        DtoResponseRules responseRules = null;
+        for (DtoResponseRules dtoResponseRules : detailPreviewSelected.getSelectedDtoResponsePreview().getDtoResponseRules()) {
+            if (dtoResponseRules.getRuleName().equalsIgnoreCase(ruleName)){
+                responseRules = dtoResponseRules;
+                break;
+            }
+        }
+        DtoActionResponse response = null;
+        for (DtoActionResponse dtoActionResponse:responseRules.getActionNames()) {
+            if (selectedItem.getValue().equalsIgnoreCase(dtoActionResponse.getActionName())){
+                response = dtoActionResponse;
+                break;
+            }
+        }
+        return response;
+    }
+
+    private DtoPropertyDetail getSelectedPropertyEntity(TreeItem<String> selectedItem, DetailPreviewSelected detailPreviewSelected) {
+        String entityName = selectedItem.getParent().getValue();
+        DtoEntitiesDetail entitiesDetail  = null;
+
+        entitiesDetail = detailPreviewSelected.getSelectedDtoResponsePreview().getDtoResponseEntities().get(entityName);
+
+        DtoPropertyDetail response = null;
+        for (DtoPropertyDetail property : entitiesDetail.getPropertyDefinitionEntityList()) {
+            if (selectedItem.getValue().equalsIgnoreCase(property.getPropertyName())){
+                response = property;
+                break;
+            }
+        }
+        return response;
+    }
+
+
+    private boolean isEntityPropertySelected(TreeItem<String> selectedItem, DetailPreviewSelected detailPreviewSelected) {
+        String nameOfTheSelectedItem = selectedItem.getParent().getParent().getValue();
+        return !nameOfTheSelectedItem.equalsIgnoreCase(rules);
+    }
+
+    private DetailPreviewSelected findTheDtoPreview(TreeItem<String> selectedItem) {
+        int count = 1;
+
+        DtoResponsePreview responsePreview = null;
+        TreeItem<String> treeItem = selectedItem;
+        // get the depth of the selected item
+        while (treeItem.getValue().equalsIgnoreCase(simulations)){
+            count ++;
+            treeItem = treeItem.getParent();
+        }
+
+        // get the DtoPreview we need.
+        treeItem = selectedItem;
+        DtoResponsePreview dtoResponsePreview = null;
+        String SimulationName = null;
+        while(treeItem.getParent().getValue().equalsIgnoreCase(simulations)){
+            SimulationName = treeItem.getValue();
+        }
+
+        for (DtoResponsePreview preview:this.worldPreview) {
+            if (preview.getSimulationName().equalsIgnoreCase(SimulationName)){
+                dtoResponsePreview = preview;
+                break;
+            }
+        }
+        return new DetailPreviewSelected(dtoResponsePreview, count);
     }
 
     private void loadAndAddFXML(String fxmlFileName, String whichController) {

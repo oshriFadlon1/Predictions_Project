@@ -124,7 +124,7 @@ public class ExecutionsHistoryController implements Initializable {
         //TODO continue implementing the function
         while(true){
             try {
-                Request simulationFetchRequest = new Request.Builder().url(Main.getBaseUrl() +"admin/fetchAllEndedSimulations").build();
+                Request simulationFetchRequest = new Request.Builder().url(Main.getBaseUrl() +"/admin/fetchAllEndedSimulations").build();
                 Call call = this.client.newCall(simulationFetchRequest);
                 call.enqueue(new Callback() {
                     @Override
