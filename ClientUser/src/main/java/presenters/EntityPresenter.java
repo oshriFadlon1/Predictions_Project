@@ -18,14 +18,16 @@ public class EntityPresenter {
     public String getEntityName() {
         return entityName;
     }
+
     public int getStartPopulation() {
         return startPopulation;
     }
-    public int getEndPopulation(){
+
+    public int getCurrPopulation() {
         return currPopulation;
     }
 
-    public void setEndPopulation(int endPopulation) {
-        this.currPopulation = endPopulation;
+    public void setCurrPopulation(int currPopulation) {
+        this.currPopulation = currPopulation;
     }
 }

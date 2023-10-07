@@ -351,4 +351,8 @@ public class MainEngine {
     public boolean validateIfAdminConnected() {
         return this.allocationManager.getIsAdminConnected().equals(true);
     }
+
+    public DtoAllSimulationDetails fetchAllSimulationByUserName(String userName) {
+       return this.simulationExecutionerManager.getSimulationByUseName(userName);
+    }
 }

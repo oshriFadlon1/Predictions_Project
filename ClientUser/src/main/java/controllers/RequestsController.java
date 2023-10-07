@@ -144,6 +144,7 @@ public class RequestsController implements Initializable {
         return -1;
     }
 
+    // check if need
     @FXML
     private void selectedComboBoxSimulation(){
 

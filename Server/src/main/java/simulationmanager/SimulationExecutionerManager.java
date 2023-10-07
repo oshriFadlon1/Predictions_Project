@@ -18,6 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import static enums.SimulationState.*;
+
 
 public class SimulationExecutionerManager {
     private final Map<Integer, WorldInstance> idToSimulationMap;
@@ -68,6 +70,8 @@ public class SimulationExecutionerManager {
             if(chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().size() == 1){
                 String entity1Name = chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getCurrEntityDef().getEntityName();
                 return new DtoSimulationDetails(chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getCurrEntityPopulation(),
+                        chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getStartEntityPopulation(),
+                        -1,
                         -1,
                         entity1Name,
                         "",
@@ -75,21 +79,34 @@ public class SimulationExecutionerManager {
                         numberOfSeconds,
                         chosenSimulation.getInformationOfWorld().isSimulationDone(),
                         chosenSimulation.isPaused(),
-                        userSimulationChoice);
+                        userSimulationChoice, createCopyOfEnvironment(chosenSimulation.getAllEnvironments()));
             }
 
             String entity1Name = chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getCurrEntityDef().getEntityName();
             String entity2Name = chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(1).getCurrEntityDef().getEntityName();
             return new DtoSimulationDetails(chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getCurrEntityPopulation(),
                     chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(1).getCurrEntityPopulation(),
+                    chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(0).getStartEntityPopulation(),
+                    chosenSimulation.getInformationOfWorld().getEntitiesToPopulations().get(1).getStartEntityPopulation(),
                     entity1Name,
                     entity2Name,
                     numberOfTicks,
                     numberOfSeconds,
                     chosenSimulation.getInformationOfWorld().isSimulationDone(),
                     chosenSimulation.isPaused(),
-                    userSimulationChoice);
+                    userSimulationChoice,
+                    createCopyOfEnvironment(chosenSimulation.getAllEnvironments()));
         }
+    }
+
+    private Map<String, Object> createCopyOfEnvironment(Map<String, EnvironmentInstance> allEnvironments) {
+        Map<String, Object> result = new HashMap<>();
+        EnvironmentInstance environmentInstance = null;
+        for (String envName:allEnvironments.keySet()) {
+            environmentInstance = allEnvironments.get(envName);
+            result.put(envName, environmentInstance.getEnvValue());
+        }
+        return result;
     }
 
     public DtoAllSimulationDetails createMapOfSimulationsToIsRunning() {
@@ -97,12 +114,12 @@ public class SimulationExecutionerManager {
         for(int currId: this.idToSimulationMap.keySet()){
             Boolean isSimulationRunning = this.idToSimulationMap.get(currId).getInformationOfWorld().isSimulationDone();
             if (isSimulationRunning){
-                allSimulations.put(currId, SimulationState.FINISHED);
+                allSimulations.put(currId, FINISHED);
             } else if (this.idToSimulationMap.get(currId).getInformationOfWorld().isSimulationPaused()){
-                allSimulations.put(currId, SimulationState.WAITING);
+                allSimulations.put(currId, WAITING);
             }
             else {
-                allSimulations.put(currId, SimulationState.RUNNING);
+                allSimulations.put(currId, RUNNING);
             }
 
         }
@@ -294,5 +311,25 @@ public class SimulationExecutionerManager {
             }
         }
         return finalSimulationsDetails;
+    }
+
+    public DtoAllSimulationDetails getSimulationByUseName(String userName) {
+        Map<Integer, SimulationState> response = new HashMap<>();
+
+        for (Integer integer : this.idToSimulationMap.keySet()) {
+            WorldInstance instance = this.idToSimulationMap.get(integer);
+            if (instance.getInformationOfWorld().getRequestDetails().getUserName().equalsIgnoreCase(userName)){
+                if (instance.isStopped()){
+                    response.put(integer, FINISHED);
+                }
+                else if (instance.isPaused()){
+                    response.put(integer, WAITING);
+                }
+                else {
+                    response.put(integer, RUNNING);
+                }
+            }
+        }
+        return new DtoAllSimulationDetails(response);
     }
 }

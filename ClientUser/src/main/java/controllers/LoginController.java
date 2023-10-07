@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -53,6 +54,7 @@ public class LoginController implements Initializable {
             }
         }
         catch(IOException e){
+            System.out.println(e);
             printErrorMsg("There was a probelm connecting");
         }
     }
@@ -63,7 +65,10 @@ public class LoginController implements Initializable {
     }
 
     public void switchToUserScene()throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/scenes/usermenu.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        URL mainFXML = getClass().getResource("/scenes/usermenu.fxml");
+        loader.setLocation(mainFXML);
+        VBox root = loader.load();
         Scene scene2 = new Scene(root, 1200, 800);
         this.primaryStage.setScene(scene2);
     }

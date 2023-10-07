@@ -3,6 +3,7 @@ package com.example.server.controllers;
 import com.example.server.engine.MainEngine;
 import dtos.*;
 import dtos.admin.DtoAllSimulationRequests;
+import dtos.admin.DtoFinalSimulationsDetails;
 import dtos.user.DtoRequestForAdmin;
 import org.springframework.web.bind.annotation.*;
 
