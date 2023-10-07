@@ -15,4 +15,7 @@ public class SimulationPresenter {
     public String getSimulationState() {
         return simulationState;
     }
+    public void setSimulationState(String simulationState) {
+        this.simulationState = simulationState;
+    }
 }
